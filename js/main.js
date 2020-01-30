@@ -70,7 +70,7 @@ var renderOffers = function (quantity) {
             },
 
             offer: {
-              title: 'заголовок предложения',
+              title: 'Заголовок предложения',
               address: coordinate,
               price: getRandomNumber(1, 5000),
               type: getRandomIndex(offerTypes, 0),
@@ -128,5 +128,68 @@ var getPositionOnMap = function (marks, informations) {
 
 getPositionOnMap(pins, offers);
 
+var mapFiltersContainer = document.querySelector('.map__filters-container');
+var templateCard = document.querySelector('#card').content;
 
-console.log(offers);
+
+var renderCards = function (informations) {
+
+  var fragment = document.createDocumentFragment();
+
+  for (var i = 0; i < informations.length; i++) {
+    var mapCard = templateCard.querySelector('.map__card').cloneNode(true);
+
+    var popupAvatar = mapCard.querySelector('.popup__avatar');
+    popupAvatar.src = informations[i].author.avatar;
+
+    var popupTitle = mapCard.querySelector('.popup__title');
+    popupTitle.textContent = informations[i].offer.title;
+
+    var popupTextAddress = mapCard.querySelector('.popup__text--address');
+    popupTextAddress.textContent = informations[i].offer.address;
+
+    var popupTextPrice = mapCard.querySelector('.popup__text--price');
+    popupTextPrice.textContent = informations[i].offer.price + ' ₽/ночь';
+
+    var popupType = mapCard.querySelector('.popup__type');
+    popupType.textContent = informations[i].offer.type;
+
+    if (popupType.textContent === 'palace') {
+      popupType.textContent = 'Дворец ';
+    } else if (popupType.textContent === 'flat') {
+      popupType.textContent = 'Квартира  ';
+    } else if (popupType.textContent === 'house') {
+      popupType.textContent = 'Дом  ';
+    } else if (popupType.textContent === 'bungalo') {
+      popupType.textContent = 'Бунгало   ';
+    }
+
+    var popupTextCapacity = mapCard.querySelector('.popup__text--capacity');
+    popupTextCapacity.textContent = informations[i].offer.rooms + ' комнаты для ' + informations[i].offer.guests + ' гостей';
+
+    var popupTextTime = mapCard.querySelector('.popup__text--time');
+    popupTextTime.textContent = 'Заезд после ' + informations[i].offer.checkin + ', выезд до ' + informations[i].offer.checkout;
+
+    var popupFeatures = mapCard.querySelector('.popup__features'); // Bug
+    if (informations[i].offer.features.length === 0) {
+      popupFeatures.classList.add('hidden');
+    }
+
+    var popupDescription = mapCard.querySelector('.popup__description');
+    popupDescription.textContent = offers[i].offer.description;
+
+    var popupPhotos = mapCard.querySelector('.popup__photos');
+    var popupPhoto = mapCard.querySelector('.popup__photo'); // Bug
+    popupPhoto.src = informations[i].offer.photos;
+
+    if (informations[i].offer.photos.length === 0) {
+      popupPhotos.classList.add('hidden');
+    }
+
+
+    fragment.append(mapCard);
+  }
+  return fragment;
+}
+
+map.insertBefore(renderCards(offers), mapFiltersContainer);
