@@ -15,13 +15,13 @@ var getRandomNumber = function (min, max) {
 
 var randomArr = function (arr) {
   var result = [];
+  var randomLength = getRandomNumber(0, arr.length - 1);
 
-  for (var i = 0; i < getRandomNumber(1, arr.length - 1); i++) {
+  while (randomLength !== result.length) {
     var randomFeatures = arr[getRandomNumber(0, arr.length - 1)];
 
     if (result.indexOf(randomFeatures) === -1) {
       result.push(randomFeatures);
-
     }
   }
   return result;
@@ -32,47 +32,101 @@ var getRandomIndex = function (arr, min) {
   return arr[getRandomNumber(min, arr.length - 1)];
 };
 
+var mapWidth = document.querySelector('.map__overlay').offsetWidth;
 
-var renderAdverts = function () {
-  var adverts = [];
 
-  for (var i = 0; i < 8; i++) {
+var renderOffers = function (quantity) {
+  var result = [];
+  var avatarsNumbers = [];
+
+  while (result.length !== quantity && avatarsNumbers.length !== quantity) {
+
     var coordinateY = getRandomNumber(130, 630);
-    var coordinateX = getRandomNumber(130, 630); // Подставить ширину карты
+    var coordinateX = getRandomNumber(0, mapWidth);
     var coordinate = coordinateX + ', ' + coordinateY;
 
-    adverts.push(
-        {
-          author: {
-            avatar: 'img/avatars/user0' + getRandomNumber(1, 8) + '.png', // Исправить повтор изображений
-          },
+    var randomAvatar = getRandomNumber(1, 8);
+    var iconAvatar;
 
-          location: {
-            x: coordinateX,
-            y: coordinateY,
-          },
+    if (avatarsNumbers.indexOf(randomAvatar) === -1) {
+      avatarsNumbers.push(randomAvatar);
 
-          offer: {
-            title: 'заголовок предложения',
-            address: coordinate,
-            price: getRandomNumber(1, 5000),
-            type: getRandomIndex(offerTypes, 0),
-            rooms: getRandomNumber(1, 100),
-            guests: getRandomNumber(1, 3),
-            checkin: getRandomIndex(records, 0),
-            checkout: getRandomIndex(records, 0),
-            features: randomArr(features),
-            description: 'строка с описанием',
-            photos: randomArr(photos),
-          },
+      if (randomAvatar <= 9) {
+        iconAvatar = 'img/avatars/user' + '0' + randomAvatar + '.png';
+      } else {
+        iconAvatar = 'img/avatars/user' + randomAvatar + '.png';
+      }
 
-        });
+
+      result.push(
+          {
+            author: {
+              avatar: iconAvatar,
+            },
+
+            location: {
+              x: coordinateX,
+              y: coordinateY,
+            },
+
+            offer: {
+              title: 'заголовок предложения',
+              address: coordinate,
+              price: getRandomNumber(1, 5000),
+              type: getRandomIndex(offerTypes, 0),
+              rooms: getRandomNumber(1, 3),
+              guests: getRandomNumber(1, 3),
+              checkin: getRandomIndex(records, 0),
+              checkout: getRandomIndex(records, 0),
+              features: randomArr(features),
+              description: 'строка с описанием',
+              photos: randomArr(photos),
+            },
+
+          });
+    }
   }
-  return adverts;
+  return result;
 };
 
-renderAdverts();
+var offers = renderOffers(6);
 
 var map = document.querySelector('.map');
+var mapPins = document.querySelector('.map__pins');
 map.classList.remove('map--faded');
+var templatePin = document.querySelector('#pin').content;
 
+
+var createPinElement = function (informations) {
+  var fragment = document.createDocumentFragment();
+
+  for (var i = 0; i < informations.length; i++) {
+    var mapPin = templatePin.querySelector('.map__pin').cloneNode(true);
+    var mapPinImg = mapPin.querySelector('img');
+
+    mapPinImg.src = informations[i].author.avatar;
+    mapPinImg.alt = informations[i].offer.title;
+    fragment.append(mapPin);
+  }
+
+  return fragment;
+};
+
+mapPins.append(createPinElement(offers));
+
+var mapPinWidth = mapPins.lastChild.offsetWidth;
+var mapPinHeight = mapPins.lastChild.offsetHeight;
+var pins = mapPins.querySelectorAll('.map__pin');
+
+
+var getPositionOnMap = function (marks, informations) {
+  for (var i = 1; i < marks.length; i++) {
+    marks[i].style.left = informations[i - 1].location.x - (mapPinWidth / 2) + 'px';
+    marks[i].style.top = informations[i - 1].location.y - mapPinHeight + 'px';
+  }
+};
+
+getPositionOnMap(pins, offers);
+
+
+console.log(offers);
