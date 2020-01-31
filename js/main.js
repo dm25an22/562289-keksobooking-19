@@ -127,7 +127,6 @@ var getPositionOnMap = function (marks, informations) {
 getPositionOnMap(pins, offers);
 
 
-
 var mapFiltersContainer = document.querySelector('.map__filters-container');
 var templateCard = document.querySelector('#card').content;
 
@@ -179,11 +178,17 @@ var renderCards = function (informations) {
     popupDescription.textContent = offers[i].offer.description;
 
     var popupPhotos = mapCard.querySelector('.popup__photos');
-    var popupPhoto = mapCard.querySelector('.popup__photo'); // Bug
+    var popupPhoto = mapCard.querySelector('.popup__photo');
     popupPhoto.src = informations[i].offer.photos;
 
     if (informations[i].offer.photos.length === 0) {
       popupPhotos.classList.add('hidden');
+    } else if (informations[i].offer.photos.length > 1) {
+      for (var k = 0; k < informations[i].offer.photos.length; k++) {
+        var popupPhotoClone =  popupPhoto.cloneNode(true);
+        console.log(informations[i].offer.photos[k]);
+        popupPhotos.append(popupPhotoClone);
+      }
     }
 
 
@@ -193,3 +198,5 @@ var renderCards = function (informations) {
 }
 
 map.insertBefore(renderCards(offers), mapFiltersContainer);
+
+console.log(offers);
