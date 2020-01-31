@@ -16,7 +16,7 @@ var getRandomNumber = function (min, max) {
 var randomArr = function (arr) {
   var result = [];
   var randomLength = getRandomNumber(0, arr.length - 1);
-  var arrCopy = arr;
+  var arrCopy = arr.slice(0);
 
   while (result.length !== randomLength) {
     var randomElement = arrCopy.splice(getRandomNumber(0, arrCopy.length - 1), 1);
@@ -85,6 +85,7 @@ var renderOffers = function (quantity) {
 
   return result;
 };
+
 
 var offers = renderOffers(8);
 
