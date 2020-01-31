@@ -19,7 +19,7 @@ var randomArr = function (arr) {
   var arrCopy = arr;
 
   while (result.length !== randomLength) {
-    var randomElement = arrCopy.splice(getRandomNumber(0, arrCopy.length -1), 1);
+    var randomElement = arrCopy.splice(getRandomNumber(0, arrCopy.length - 1), 1);
     randomElement = randomElement[0];
     result.push(randomElement);
   }
@@ -37,9 +37,9 @@ var renderOffers = function (quantity) {
   var result = [];
   var avatarsNumbers = [];
 
-    for (var i = 1; i <= quantity; i++) {
-      avatarsNumbers.push(i);
-    }
+  for (var i = 1; i <= quantity; i++) {
+    avatarsNumbers.push(i);
+  }
 
   while (result.length !== quantity) {
 
@@ -50,39 +50,38 @@ var renderOffers = function (quantity) {
     var randomAvatar = avatarsNumbers.splice(getRandomNumber(0, avatarsNumbers.length - 1), 1);
     randomAvatar = randomAvatar[0];
 
-      if (randomAvatar <= 9) {
-        randomAvatar = 'img/avatars/user' + '0' + randomAvatar + '.png';
-      } else {
-        randomAvatar = 'img/avatars/user' + randomAvatar + '.png';
-      }
-
-      result.push(
-          {
-            author: {
-              avatar: randomAvatar,
-            },
-
-            location: {
-              x: coordinateX,
-              y: coordinateY,
-            },
-
-            offer: {
-              title: 'Заголовок предложения',
-              address: coordinate,
-              price: getRandomNumber(1, 5000),
-              type: getRandomIndex(offerTypes, 0),
-              rooms: getRandomNumber(1, 3),
-              guests: getRandomNumber(1, 3),
-              checkin: getRandomIndex(records, 0),
-              checkout: getRandomIndex(records, 0),
-              features: randomArr(features),
-              description: 'Строка с описанием',
-              photos: randomArr(photos),
-            },
-
-          });
+    if (randomAvatar <= 9) {
+      randomAvatar = 'img/avatars/user' + '0' + randomAvatar + '.png';
+    } else {
+      randomAvatar = 'img/avatars/user' + randomAvatar + '.png';
     }
+    result.push(
+        {
+          author: {
+            avatar: randomAvatar,
+          },
+
+          location: {
+            x: coordinateX,
+            y: coordinateY,
+          },
+
+          offer: {
+            title: 'Заголовок предложения',
+            address: coordinate,
+            price: getRandomNumber(1, 5000),
+            type: getRandomIndex(offerTypes, 0),
+            rooms: getRandomNumber(1, 3),
+            guests: getRandomNumber(1, 3),
+            checkin: getRandomIndex(records, 0),
+            checkout: getRandomIndex(records, 0),
+            features: randomArr(features),
+            description: 'Строка с описанием',
+            photos: randomArr(photos),
+          },
+
+        });
+  }
 
   return result;
 };
@@ -118,7 +117,7 @@ var pins = mapPinsContainer.querySelectorAll('.map__pin');
 
 
 var getPositionOnMap = function (marks, informations) {
-  for (var i = 0; i < marks.length -1; i++) {
+  for (var i = 0; i < marks.length - 1; i++) {
 
     marks[i + 1].style.left = informations[i].location.x - (mapPinWidth / 2) + 'px';
     marks[i + 1].style.top = informations[i].location.y - mapPinHeight + 'px';
