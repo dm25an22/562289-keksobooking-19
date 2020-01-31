@@ -16,13 +16,12 @@ var getRandomNumber = function (min, max) {
 var randomArr = function (arr) {
   var result = [];
   var randomLength = getRandomNumber(0, arr.length - 1);
+  var arrCopy = arr;
 
-  while (randomLength !== result.length) {
-    var randomFeatures = arr[getRandomNumber(0, arr.length - 1)];
-
-    if (result.indexOf(randomFeatures) === -1) {
-      result.push(randomFeatures);
-    }
+  while (result.length !== randomLength) {
+    var randomElement = arrCopy.splice(getRandomNumber(0, arrCopy.length - 1), 1);
+    randomElement = randomElement[0];
+    result.push(randomElement);
   }
   return result;
 };
@@ -34,65 +33,63 @@ var getRandomIndex = function (arr, min) {
 
 var mapWidth = document.querySelector('.map__overlay').offsetWidth;
 
-
 var renderOffers = function (quantity) {
   var result = [];
   var avatarsNumbers = [];
 
-  while (result.length !== quantity && avatarsNumbers.length !== quantity) {
+  for (var i = 1; i <= quantity; i++) {
+    avatarsNumbers.push(i);
+  }
+
+  while (result.length !== quantity) {
 
     var coordinateY = getRandomNumber(130, 630);
     var coordinateX = getRandomNumber(0, mapWidth);
     var coordinate = coordinateX + ', ' + coordinateY;
 
-    var randomAvatar = getRandomNumber(1, 8);
-    var iconAvatar;
+    var randomAvatar = avatarsNumbers.splice(getRandomNumber(0, avatarsNumbers.length - 1), 1);
+    randomAvatar = randomAvatar[0];
 
-    if (avatarsNumbers.indexOf(randomAvatar) === -1) {
-      avatarsNumbers.push(randomAvatar);
-
-      if (randomAvatar <= 9) {
-        iconAvatar = 'img/avatars/user' + '0' + randomAvatar + '.png';
-      } else {
-        iconAvatar = 'img/avatars/user' + randomAvatar + '.png';
-      }
-
-
-      result.push(
-          {
-            author: {
-              avatar: iconAvatar,
-            },
-
-            location: {
-              x: coordinateX,
-              y: coordinateY,
-            },
-
-            offer: {
-              title: 'Заголовок предложения',
-              address: coordinate,
-              price: getRandomNumber(1, 5000),
-              type: getRandomIndex(offerTypes, 0),
-              rooms: getRandomNumber(1, 3),
-              guests: getRandomNumber(1, 3),
-              checkin: getRandomIndex(records, 0),
-              checkout: getRandomIndex(records, 0),
-              features: randomArr(features),
-              description: 'строка с описанием',
-              photos: randomArr(photos),
-            },
-
-          });
+    if (randomAvatar <= 9) {
+      randomAvatar = 'img/avatars/user' + '0' + randomAvatar + '.png';
+    } else {
+      randomAvatar = 'img/avatars/user' + randomAvatar + '.png';
     }
+    result.push(
+        {
+          author: {
+            avatar: randomAvatar,
+          },
+
+          location: {
+            x: coordinateX,
+            y: coordinateY,
+          },
+
+          offer: {
+            title: 'Заголовок предложения',
+            address: coordinate,
+            price: getRandomNumber(1, 5000),
+            type: getRandomIndex(offerTypes, 0),
+            rooms: getRandomNumber(1, 3),
+            guests: getRandomNumber(1, 3),
+            checkin: getRandomIndex(records, 0),
+            checkout: getRandomIndex(records, 0),
+            features: randomArr(features),
+            description: 'Строка с описанием',
+            photos: randomArr(photos),
+          },
+
+        });
   }
+
   return result;
 };
 
-var offers = renderOffers(6);
+var offers = renderOffers(8);
 
 var map = document.querySelector('.map');
-var mapPins = document.querySelector('.map__pins');
+var mapPinsContainer = document.querySelector('.map__pins');
 map.classList.remove('map--faded');
 var templatePin = document.querySelector('#pin').content;
 
@@ -112,21 +109,24 @@ var createPinElement = function (informations) {
   return fragment;
 };
 
-mapPins.append(createPinElement(offers));
+mapPinsContainer.append(createPinElement(offers));
 
-var mapPinWidth = mapPins.lastChild.offsetWidth;
-var mapPinHeight = mapPins.lastChild.offsetHeight;
-var pins = mapPins.querySelectorAll('.map__pin');
+var mapPinWidth = mapPinsContainer.lastChild.offsetWidth;
+var mapPinHeight = mapPinsContainer.lastChild.offsetHeight;
+var pins = mapPinsContainer.querySelectorAll('.map__pin');
 
 
 var getPositionOnMap = function (marks, informations) {
-  for (var i = 1; i < marks.length; i++) {
-    marks[i].style.left = informations[i - 1].location.x - (mapPinWidth / 2) + 'px';
-    marks[i].style.top = informations[i - 1].location.y - mapPinHeight + 'px';
+  for (var i = 0; i < marks.length - 1; i++) {
+
+    marks[i + 1].style.left = informations[i].location.x - (mapPinWidth / 2) + 'px';
+    marks[i + 1].style.top = informations[i].location.y - mapPinHeight + 'px';
   }
 };
 
 getPositionOnMap(pins, offers);
+
+
 
 var mapFiltersContainer = document.querySelector('.map__filters-container');
 var templateCard = document.querySelector('#card').content;
