@@ -15,8 +15,8 @@ var getRandomNumber = function (min, max) {
 
 var randomArr = function (arr) {
   var result = [];
-  var randomLength = getRandomNumber(0, arr.length - 1);
-  var arrCopy = arr;
+  var randomLength = getRandomNumber(0, arr.length);
+  var arrCopy = arr.slice(0);
 
   while (result.length !== randomLength) {
     var randomElement = arrCopy.splice(getRandomNumber(0, arrCopy.length - 1), 1);
@@ -86,7 +86,7 @@ var renderOffers = function (quantity) {
   return result;
 };
 
-var offers = renderOffers(8);
+var offers = renderOffers(1);
 
 var map = document.querySelector('.map');
 var mapPinsContainer = document.querySelector('.map__pins');
@@ -171,7 +171,7 @@ var renderCards = function (informations) {
 
     var popupFeatures = mapCard.querySelector('.popup__features'); // Bug
     if (informations[i].offer.features.length === 0) {
-      popupFeatures.classList.add('hidden');
+      popupFeatures.remove();
     }
 
     var popupDescription = mapCard.querySelector('.popup__description');
@@ -179,14 +179,16 @@ var renderCards = function (informations) {
 
     var popupPhotos = mapCard.querySelector('.popup__photos');
     var popupPhoto = mapCard.querySelector('.popup__photo');
-    popupPhoto.src = informations[i].offer.photos;
+    console.log(informations[i].offer.photos.length);
+    popupPhoto.src = informations[i].offer.photos[0];
+
 
     if (informations[i].offer.photos.length === 0) {
-      popupPhotos.classList.add('hidden');
+      popupPhotos.remove();
     } else if (informations[i].offer.photos.length > 1) {
-      for (var k = 0; k < informations[i].offer.photos.length; k++) {
+      for (var k = 1; k < informations[i].offer.photos.length; k++) {
         var popupPhotoClone =  popupPhoto.cloneNode(true);
-        console.log(informations[i].offer.photos[k]);
+        popupPhotoClone.src = informations[i].offer.photos[k];
         popupPhotos.append(popupPhotoClone);
       }
     }
