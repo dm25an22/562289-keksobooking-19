@@ -170,7 +170,6 @@ var renderCards = function (informations) {
     popupTextTime.textContent = 'Заезд после ' + informations[i].offer.checkin + ', выезд до ' + informations[i].offer.checkout;
 
     var popupFeatures = mapCard.querySelector('.popup__features');
-    var popupFeaturesList = mapCard.querySelectorAll('.popup__feature');
 
     if (informations[i].offer.features.length === 0) {
       popupFeatures.remove();
@@ -187,7 +186,7 @@ var renderCards = function (informations) {
       popupPhotos.remove();
     } else if (informations[i].offer.photos.length > 1) {
       for (var k = 1; k < informations[i].offer.photos.length; k++) {
-        var popupPhotoClone =  popupPhoto.cloneNode(true);
+        var popupPhotoClone = popupPhoto.cloneNode(true);
         popupPhotoClone.src = informations[i].offer.photos[k];
         popupPhotos.append(popupPhotoClone);
       }
@@ -197,6 +196,6 @@ var renderCards = function (informations) {
     fragment.append(mapCard);
   }
   return fragment;
-}
+};
 
 map.insertBefore(renderCards(offers), mapFiltersContainer);
