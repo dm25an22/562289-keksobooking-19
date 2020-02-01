@@ -15,7 +15,7 @@ var getRandomNumber = function (min, max) {
 
 var randomArr = function (arr) {
   var result = [];
-  var randomLength = getRandomNumber(0, arr.length - 1);
+  var randomLength = getRandomNumber(0, arr.length);
   var arrCopy = arr.slice(0);
 
   while (result.length !== randomLength) {
