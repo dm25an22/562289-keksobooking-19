@@ -6,6 +6,7 @@ var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditio
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var numbersOfPhoto = 8;
 
+
 var getRandomNumber = function (min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -87,7 +88,9 @@ var renderOffers = function (quantity) {
   return result;
 };
 
+
 var offers = renderOffers(1);
+
 
 var map = document.querySelector('.map');
 var mapPinsContainer = document.querySelector('.map__pins');
@@ -126,7 +129,6 @@ var getPositionOnMap = function (marks, informations) {
 };
 
 getPositionOnMap(pins, offers);
-
 
 var mapFiltersContainer = document.querySelector('.map__filters-container');
 var templateCard = document.querySelector('#card').content;
