@@ -4,6 +4,7 @@ var OFFER_TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var RECORDS = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var numbersOfPhoto = 8;
 
 var getRandomNumber = function (min, max) {
   min = Math.ceil(min);
@@ -13,7 +14,7 @@ var getRandomNumber = function (min, max) {
 };
 
 
-var randomArr = function (arr) {
+var getRandomArr = function (arr) {
   var result = [];
   var randomLength = getRandomNumber(0, arr.length);
   var arrCopy = arr.slice(0);
@@ -37,7 +38,7 @@ var renderOffers = function (quantity) {
   var result = [];
   var avatarsNumbers = [];
 
-  for (var i = 1; i <= quantity; i++) {
+  for (var i = 1; i <= numbersOfPhoto; i++) {
     avatarsNumbers.push(i);
   }
 
@@ -75,9 +76,9 @@ var renderOffers = function (quantity) {
             guests: getRandomNumber(1, 3),
             checkin: getRandomIndex(RECORDS, 0),
             checkout: getRandomIndex(RECORDS, 0),
-            features: randomArr(FEATURES),
+            features: getRandomArr(FEATURES),
             description: 'Строка с описанием',
-            photos: randomArr(PHOTOS),
+            photos: getRandomArr(PHOTOS),
           },
 
         });
@@ -169,11 +170,58 @@ var renderCards = function (informations) {
     var popupTextTime = mapCard.querySelector('.popup__text--time');
     popupTextTime.textContent = 'Заезд после ' + informations[i].offer.checkin + ', выезд до ' + informations[i].offer.checkout;
 
-    var popupFeatures = mapCard.querySelector('.popup__features');
+    var popupFeaturesContainer = mapCard.querySelector('.popup__features');
+
+    var wifiIcon = mapCard.querySelector('.popup__feature--wifi');
+    wifiIcon.remove();
+
+    var dishwasherIcon = mapCard.querySelector('.popup__feature--dishwasher');
+    dishwasherIcon.remove();
+
+    var parkingIcon = mapCard.querySelector('.popup__feature--parking');
+    parkingIcon.remove();
+
+    var washerIcon = mapCard.querySelector('.popup__feature--washer');
+    washerIcon.remove();
+
+    var elevatorIcon = mapCard.querySelector('.popup__feature--elevator');
+    elevatorIcon.remove();
+
+    var conditionerIcon = mapCard.querySelector('.popup__feature--conditioner');
+    conditionerIcon.remove();
 
     if (informations[i].offer.features.length === 0) {
-      popupFeatures.remove();
+      popupFeaturesContainer.remove();
     }
+
+    for (var j = 0; j < informations[i].offer.features.length; j++) {
+      switch (informations[i].offer.features[j]) {
+        case 'wifi':
+          popupFeaturesContainer.append(wifiIcon);
+          break;
+
+        case 'dishwasher':
+          popupFeaturesContainer.append(dishwasherIcon);
+          break;
+
+        case 'parking':
+          popupFeaturesContainer.append(parkingIcon);
+          break;
+
+        case 'washer':
+          popupFeaturesContainer.append(washerIcon);
+          break;
+
+        case 'elevator':
+          popupFeaturesContainer.append(elevatorIcon);
+          break;
+
+        case 'conditioner':
+          popupFeaturesContainer.append(conditionerIcon);
+          break;
+      }
+    }
+
 
     var popupDescription = mapCard.querySelector('.popup__description');
     popupDescription.textContent = offers[i].offer.description;
