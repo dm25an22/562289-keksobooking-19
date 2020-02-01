@@ -1,9 +1,9 @@
 'use strict';
 
-var offerTypes = ['palace', 'flat', 'house', 'bungalo'];
-var records = ['12:00', '13:00', '14:00'];
-var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var photos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var OFFER_TYPES = ['palace', 'flat', 'house', 'bungalo'];
+var RECORDS = ['12:00', '13:00', '14:00'];
+var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
 var getRandomNumber = function (min, max) {
   min = Math.ceil(min);
@@ -70,14 +70,14 @@ var renderOffers = function (quantity) {
             title: 'Заголовок предложения',
             address: coordinate,
             price: getRandomNumber(1, 5000),
-            type: getRandomIndex(offerTypes, 0),
+            type: getRandomIndex(OFFER_TYPES, 0),
             rooms: getRandomNumber(1, 3),
             guests: getRandomNumber(1, 3),
-            checkin: getRandomIndex(records, 0),
-            checkout: getRandomIndex(records, 0),
-            features: randomArr(features),
+            checkin: getRandomIndex(RECORDS, 0),
+            checkout: getRandomIndex(RECORDS, 0),
+            features: randomArr(FEATURES),
             description: 'Строка с описанием',
-            photos: randomArr(photos),
+            photos: randomArr(PHOTOS),
           },
 
         });
@@ -86,7 +86,9 @@ var renderOffers = function (quantity) {
   return result;
 };
 
+
 var offers = renderOffers(1);
+
 
 var map = document.querySelector('.map');
 var mapPinsContainer = document.querySelector('.map__pins');
@@ -125,7 +127,6 @@ var getPositionOnMap = function (marks, informations) {
 };
 
 getPositionOnMap(pins, offers);
-
 
 var mapFiltersContainer = document.querySelector('.map__filters-container');
 var templateCard = document.querySelector('#card').content;
