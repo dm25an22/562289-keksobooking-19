@@ -161,7 +161,7 @@ var renderCards = function (informations) {
       flat: 'Квартира ',
       house: 'Дом ',
       bungalo: 'Бунгало '
-    }
+    };
 
     switch (popupType.textContent) {
 
