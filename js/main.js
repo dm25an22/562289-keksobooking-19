@@ -159,21 +159,20 @@ var renderCards = function (informations) {
     switch (popupType.textContent) {
 
       case 'palace':
-      popupType.textContent = 'Дворец ';
-      break;
+        popupType.textContent = 'Дворец ';
+        break;
 
       case 'flat':
-      popupType.textContent = 'Квартира  ';
-      break;
+        popupType.textContent = 'Квартира  ';
+        break;
 
       case 'house':
-      popupType.textContent = 'Дом  ';
-      break;
+        popupType.textContent = 'Дом  ';
+        break;
 
       case 'bungalo':
-      popupType.textContent = 'Бунгало   ';
-      break;
-
+        popupType.textContent = 'Бунгало   ';
+        break;
     }
 
     var popupTextCapacity = mapCard.querySelector('.popup__text--capacity');
@@ -186,7 +185,7 @@ var renderCards = function (informations) {
     var items = popupFeaturesContainer.querySelectorAll('.popup__feature');
 
 
-    var icons = ['popup__feature--wifi', 'popup__feature--dishwasher', 'popup__feature--parking', 'popup__feature--washer', 'popup__feature--elevator', 'popup__feature--conditioner'];
+    // var icons = ['popup__feature--wifi', 'popup__feature--dishwasher', 'popup__feature--parking', 'popup__feature--washer', 'popup__feature--elevator', 'popup__feature--conditioner'];
 
     for (var t = 0; t < items.length; t++) {
       items[t].remove();
