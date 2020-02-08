@@ -181,14 +181,44 @@ var renderCards = function (informations) {
     var popupTextTime = mapCard.querySelector('.popup__text--time');
     popupTextTime.textContent = 'Заезд после ' + informations[i].offer.checkin + ', выезд до ' + informations[i].offer.checkout;
 
+
     var popupFeaturesContainer = mapCard.querySelector('.popup__features');
     var items = popupFeaturesContainer.querySelectorAll('.popup__feature');
 
-
-    // var icons = ['popup__feature--wifi', 'popup__feature--dishwasher', 'popup__feature--parking', 'popup__feature--washer', 'popup__feature--elevator', 'popup__feature--conditioner'];
+    var wifiIcon = mapCard.querySelector('.popup__feature--wifi');
+    var dishwasherIcon = mapCard.querySelector('.popup__feature--dishwasher');
+    var parkingIcon = mapCard.querySelector('.popup__feature--parking');
+    var washerIcon = mapCard.querySelector('.popup__feature--washer');
+    var elevatorIcon = mapCard.querySelector('.popup__feature--elevator');
+    var conditionerIcon = mapCard.querySelector('.popup__feature--conditioner');
 
     for (var t = 0; t < items.length; t++) {
       items[t].remove();
+    }
+
+    for (var j = 0; j < informations[i].offer.features.length; j++) {
+
+      switch (informations[i].offer.features[j]) {
+        case 'wifi':
+          popupFeaturesContainer.append(wifiIcon);
+          break;
+        case 'dishwasher':
+          popupFeaturesContainer.append(dishwasherIcon);
+          break;
+        case 'parking':
+          popupFeaturesContainer.append(parkingIcon);
+          break;
+        case 'washer':
+          popupFeaturesContainer.append(washerIcon);
+          break;
+        case 'elevator':
+          popupFeaturesContainer.append(elevatorIcon);
+          break;
+        case 'conditioner':
+          popupFeaturesContainer.append(conditionerIcon);
+          break;
+      }
+
     }
 
 
