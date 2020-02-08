@@ -265,20 +265,20 @@ var getCoordinatePinMain = function () {
 }
 
 var getCoordinatePinMainActiv = function () {
-  var y = mapPinMain.offsetTop + mapPinMain.offsetHeight + 15;
+  var y = mapPinMain.offsetTop + mapPinMain.offsetHeight + 15; // ???
   var x = mapPinMain.offsetLeft + (PIN_MAIN_WIDTH / 2);
   return x + ', ' + y;
 }
 
 var setDisabled = function (arr) {
   for (var i = 0; i < arr.length; i++) {
-    arr[i].setAttribute('disabled', 'disabled');
+    arr[i].disabled = true;
   }
 }
 
 var removeDisabled = function (arr) {
   for (var i = 0; i < arr.length; i++) {
-    arr[i].removeAttribute('disabled', 'disabled');
+    arr[i].disabled = false;
   }
 }
 
@@ -316,77 +316,180 @@ mapPinMain.addEventListener('keydown', function (evt) {
 var typeHous = addForm.querySelector('#type');
 var pricePerNight = addForm.querySelector('#price');
 
-var roomNumber = document.querySelector('#room_number');
-var capacity = document.querySelector('#capacity');
 
-console.log(typeHous.value);
-
-typeHous.addEventListener('change', function () {
-  if (typeHous.value === 'bungalo') {
-    pricePerNight.setAttribute('min', 0);
-    pricePerNight.setAttribute('placeholder', 0);
-    //pricePerNight.setCustomValidity('wwwwww');
-  } else if (typeHous.value === 'flat') {
-    pricePerNight.setAttribute('min', 1000);
-    pricePerNight.setAttribute('placeholder','от ' + 1000);
-  } else if (typeHous.value === 'house') {
-    pricePerNight.setAttribute('min', 5000);
-    pricePerNight.setAttribute('placeholder','от ' + 5000);
-  } else if (typeHous.value === 'palace') {
-    pricePerNight.setAttribute('min', 10000);
-    pricePerNight.setAttribute('placeholder','от ' + 10000);
-
-  }
-})
-
-for (var v = 0; v < capacity.length; v++) {
-if (!capacity.selected) {
-  capacity[v].disabled = true;
-  }
+var prices = {
+  bungaloPriceFrom: 0,
+  flatPriceFrom: 1000,
+  housePriceFrom: 5000,
+  palacePriceFrom: 10000
 }
 
-console.log(roomNumber.value);
+typeHous.addEventListener('change', function () {
 
-roomNumber.addEventListener('change', function () {
-  if (roomNumber.value === '2') {
+  switch (typeHous.value) {
+    case 'bungalo':
+      pricePerNight.min = prices.bungaloPriceFrom;
+      pricePerNight.placeholder = prices.bungaloPriceFrom;
+      break;
 
+    case 'flat':
+      pricePerNight.min = prices.flatPriceFrom;
+      pricePerNight.placeholder = 'от ' + prices.flatPriceFrom;
+      break;
+
+    case 'house':
+      pricePerNight.min = prices.housePriceFrom;
+      pricePerNight.placeholder = 'от ' + prices.housePriceFrom;
+      break;
+
+    case 'palace':
+      pricePerNight.min = prices.palacePriceFrom;
+      pricePerNight.placeholder = 'от ' + prices.palacePriceFrom;
+      break;
   }
+
 });
 
+/*var roomNumber = document.querySelector('#room_number');
+var capacity = document.querySelector('#capacity');*/
 
+var guest = document.querySelector('#capacity');
+var rooms = document.querySelector('#room_number');
 
-/*for (var p = 0; p < capacity.length; p++) {
-  if (!capacity[p].selected) {
-    capacity[p].style.display = 'none';
-  }
-}*/
+/*rooms.addEventListener('change', function () {
 
-//console.log(capacity[0]);
-
-/*if (roomNumber[0].value === '1') {
-  for (var k = 0; k < capacity.length; k++) {
-    if (capacity[k].value !== '1') {
-      capacity[k].style.display = 'none';
-    } else {
-      capacity[k].selected = true;
-    }
-  }
-}*/
-
-/*roomNumber.addEventListener('change', function (evt) {
-  for (var i = 0; i < roomNumber.length; i++) {
-    if (roomNumber[i].selected) {
-      if (roomNumber[i].value === '2') {
-        for (var k = 0; k < capacity.length; k++) {
-          if (capacity[k].value !== '2') {
-          capacity[k].remove();
-          } else {
-            capacity[k].selected = true;
-          }
-        }
+    switch (rooms) {
+    case '1':
+      if (guest !== '1') {
+        guest.setCustomValidity('Только для 1 гостя');
       }
-    }
+      break;
+    case '2':
+      if (guest !== '1' && guest !== '2') {
+        guest.setCustomValidity('Только для 1 или 2 гостей');
+      }
+      break;
+    case '3':
+      if (guest !== '1' && guest !== '2' && guest !== '3') {
+        guest.setCustomValidity('Только для 1, 2 или 3 гостей');
+      }
+      break;
+    case '100':
+      if (guest !== '0') {
+        guest.setCustomValidity('Не для гостей');
+      }
+      break;
   }
-})*/;
+
+});*/
 
 
+/*var guest100 = guest[3];
+var guest1 = guest[2];
+var guest2 = guest[1];
+var guest3 = guest[0]*/;
+
+/*rooms.addEventListener('change', function () {
+if (rooms.value === '2') {
+  guest3.disabled = true;
+  guest2.disabled = false;
+  guest1.disabled = false;
+  guest2.selected = true;
+} else if (rooms.value === '1') {
+  guest3.disabled = true;
+  guest2.disabled = true;
+  guest1.disabled = false;
+  guest1.selected = true;
+} else if (rooms.value === '3') {
+  guest3.disabled = false;
+  guest2.disabled = false;
+  guest1.disabled = false;
+  guest3.selected = true;
+  guest100.disabled = true;
+} else {
+  guest3.disabled = true;
+  guest2.disabled = true;
+  guest1.disabled = true;
+  guest100.disabled = false;
+  guest100.selected = true;
+}
+});*/
+
+/*rooms.addEventListener('change', function () {
+  switch (rooms.value) {
+    case '1':
+      guest3.disabled = true;
+      guest2.disabled = true;
+      guest1.disabled = false;
+      guest1.selected = true;
+      guest100.disabled = true;
+      break;
+
+    case '2':
+      guest3.disabled = true;
+      guest2.disabled = false;
+      guest1.disabled = false;
+      //guest2.selected = true;
+      guest100.disabled = true;
+      break;
+
+    case '3':
+      guest3.disabled = false;
+      guest2.disabled = false;
+      guest1.disabled = false;
+      //guest3.selected = true;
+      guest100.disabled = true;
+      break;
+
+    case '100 комнат':
+      guest3.disabled = true;
+      guest2.disabled = true;
+      guest1.disabled = true;
+      guest100.disabled = false;
+      guest100.selected = true;
+      break;
+  }
+
+});
+
+var rooms1 = rooms[0];
+var rooms2 = rooms[1];
+var rooms3 = rooms[2];
+var rooms100 = rooms[3];
+
+guest.addEventListener('change', function () {
+  switch (guest.value) {
+    case '1':
+      rooms1.disabled = false;
+      rooms2.disabled = false;
+      rooms3.disabled = false;
+      //rooms1.selected = true;
+      rooms100.disabled = true;
+      break;
+
+    case '2':
+      rooms1.disabled = false;
+      rooms2.disabled = false;
+      rooms3.disabled = true;
+      //rooms1.selected = true;
+      rooms100.disabled = true;
+      break;
+
+    case '3':
+      rooms1.disabled = false;
+      rooms2.disabled = false;
+      rooms3.disabled = false;
+      //rooms1.selected = true;
+      rooms100.disabled = true;
+      break;
+
+    case 'не для гостей':
+      rooms1.disabled = true;
+      rooms2.disabled = true;
+      rooms3.disabled = true;
+      rooms100.selected = true;
+      rooms100.disabled = false;
+      break;
+  }
+
+});*/
