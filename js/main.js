@@ -156,22 +156,29 @@ var renderCards = function (informations) {
     var popupType = mapCard.querySelector('.popup__type');
     popupType.textContent = informations[i].offer.type;
 
+    var houseTypes = {
+      palace: 'Дворец ',
+      flat: 'Квартира ',
+      house: 'Дом ',
+      bungalo: 'Бунгало '
+    }
+
     switch (popupType.textContent) {
 
       case 'palace':
-        popupType.textContent = 'Дворец ';
+        popupType.textContent = houseTypes.palace;
         break;
 
       case 'flat':
-        popupType.textContent = 'Квартира  ';
+        popupType.textContent = houseTypes.flat;
         break;
 
       case 'house':
-        popupType.textContent = 'Дом  ';
+        popupType.textContent = houseTypes.house;
         break;
 
       case 'bungalo':
-        popupType.textContent = 'Бунгало   ';
+        popupType.textContent = houseTypes.bungalo;
         break;
     }
 
