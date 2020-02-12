@@ -160,7 +160,8 @@ var renderCards = function (informations) {
     var popupType = mapCard.querySelector('.popup__type');
     popupType.textContent = informations[i].offer.type;
 
-     var houseTypes = {
+
+    var houseTypes = {
       palace: 'Дворец ',
       flat: 'Квартира ',
       house: 'Дом ',
@@ -192,56 +193,44 @@ var renderCards = function (informations) {
     var popupTextTime = mapCard.querySelector('.popup__text--time');
     popupTextTime.textContent = 'Заезд после ' + informations[i].offer.checkin + ', выезд до ' + informations[i].offer.checkout;
 
+
     var popupFeaturesContainer = mapCard.querySelector('.popup__features');
+    var items = popupFeaturesContainer.querySelectorAll('.popup__feature');
 
     var wifiIcon = mapCard.querySelector('.popup__feature--wifi');
-    wifiIcon.remove();
-
     var dishwasherIcon = mapCard.querySelector('.popup__feature--dishwasher');
-    dishwasherIcon.remove();
-
     var parkingIcon = mapCard.querySelector('.popup__feature--parking');
-    parkingIcon.remove();
-
     var washerIcon = mapCard.querySelector('.popup__feature--washer');
-    washerIcon.remove();
-
     var elevatorIcon = mapCard.querySelector('.popup__feature--elevator');
-    elevatorIcon.remove();
-
     var conditionerIcon = mapCard.querySelector('.popup__feature--conditioner');
-    conditionerIcon.remove();
 
-    if (informations[i].offer.features.length === 0) {
-      popupFeaturesContainer.remove();
+    for (var t = 0; t < items.length; t++) {
+      items[t].remove();
     }
 
     for (var j = 0; j < informations[i].offer.features.length; j++) {
+
       switch (informations[i].offer.features[j]) {
         case 'wifi':
           popupFeaturesContainer.append(wifiIcon);
           break;
-
         case 'dishwasher':
           popupFeaturesContainer.append(dishwasherIcon);
           break;
-
         case 'parking':
           popupFeaturesContainer.append(parkingIcon);
           break;
-
         case 'washer':
           popupFeaturesContainer.append(washerIcon);
           break;
-
         case 'elevator':
           popupFeaturesContainer.append(elevatorIcon);
           break;
-
         case 'conditioner':
           popupFeaturesContainer.append(conditionerIcon);
           break;
       }
+
     }
 
 
