@@ -339,15 +339,15 @@ var checkSelected = function () {
 
   switch (true) {
     case rooms.value === '1' && guests !== '1':
-      rooms.setCustomValidity('В одной комнате может проживать только один человек');
+      rooms.setCustomValidity('В одной комнате может проживать только один гость');
       break;
 
     case rooms.value === '2' && (guests !== '1' && guests !== '2'):
-      rooms.setCustomValidity('В двух комнатах может проживать либо один человек либо два');
+      rooms.setCustomValidity('В двух комнатах могут продивать не более двух гостей');
       break;
 
     case rooms.value === '3' && (guests !== '1' && guests !== '2' && guests !== '3'):
-      rooms.setCustomValidity('В трёх комнатах может проживать до трёх человек');
+      rooms.setCustomValidity('В трёх комнатах могут проживать до трёх человек');
       break;
 
     case rooms.value === '100' && guests !== 'не для гостей':
