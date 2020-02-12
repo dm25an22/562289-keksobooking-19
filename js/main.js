@@ -1,6 +1,7 @@
 'use strict';
 
 var map = document.querySelector('.map');
+
 /* var OFFER_TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var RECORDS = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -281,7 +282,7 @@ var getCoordinatePinMain = function () {
 };
 
 var getCoordinatePinMainActiv = function () {
-  var y = mapPinMain.offsetTop + mapPinMain.offsetHeight + 15; // ???
+  var y = mapPinMain.offsetTop + mapPinMain.offsetHeight + 15; // ??? при переходе страницы в активное состояние в поле адреса подставляются координаты острого конца метки
   var x = mapPinMain.offsetLeft + (PIN_MAIN_WIDTH / 2);
   return x + ', ' + y;
 };
@@ -329,127 +330,37 @@ mapPinMain.addEventListener('keydown', function (evt) {
   activStatus(evt);
 });
 
-var typeHous = addForm.querySelector('#type');
-var pricePerNight = addForm.querySelector('#price');
+
+var rooms = document.querySelector('#room_number');
+var guests = document.querySelector('#capacity');
 
 
-var prices = {
-  bungaloPriceFrom: 0,
-  flatPriceFrom: 1000,
-  housePriceFrom: 5000,
-  palacePriceFrom: 10000
+var checkSelected = function () {
+
+  switch (true) {
+    case rooms.value === '1' && guests !== '1':
+      rooms.setCustomValidity('В одной комнате может проживать только один человек');
+      break;
+
+    case rooms.value === '2' && (guests !== '1' && guests !== '2'):
+      rooms.setCustomValidity('В двух комнатах может проживать либо один человек либо два');
+      break;
+
+    case rooms.value === '3' && (guests !== '1' && guests !== '2' && guests !== '3'):
+      rooms.setCustomValidity('В трёх комнатах может проживать до трёх человек');
+      break;
+
+    case rooms.value === '100' && guests !== 'не для гостей':
+      rooms.setCustomValidity('Не для гостей');
+      break;
+
+    default:
+      rooms.setCustomValidity('');
+      break;
+  }
+
 };
 
-typeHous.addEventListener('change', function () {
+rooms.addEventListener('change', checkSelected);
+guests.addEventListener('change', checkSelected);
 
-  switch (typeHous.value) {
-    case 'bungalo':
-      pricePerNight.min = prices.bungaloPriceFrom;
-      pricePerNight.placeholder = prices.bungaloPriceFrom;
-      break;
-
-    case 'flat':
-      pricePerNight.min = prices.flatPriceFrom;
-      pricePerNight.placeholder = 'от ' + prices.flatPriceFrom;
-      break;
-
-    case 'house':
-      pricePerNight.min = prices.housePriceFrom;
-      pricePerNight.placeholder = 'от ' + prices.housePriceFrom;
-      break;
-
-    case 'palace':
-      pricePerNight.min = prices.palacePriceFrom;
-      pricePerNight.placeholder = 'от ' + prices.palacePriceFrom;
-      break;
-  }
-
-});
-
-var guest = document.querySelector('#capacity');
-var rooms = document.querySelector('#room_number');
-
-
-var guest100 = guest[3];
-var guest1 = guest[2];
-var guest2 = guest[1];
-var guest3 = guest[0];
-
-rooms.addEventListener('change', function () {
-  switch (rooms.value) {
-    case '1':
-      guest3.disabled = true;
-      guest2.disabled = true;
-      guest1.disabled = false;
-      guest1.selected = true;
-      guest100.disabled = true;
-      break;
-
-    case '2':
-      guest3.disabled = true;
-      guest2.disabled = false;
-      guest1.disabled = false;
-      guest2.selected = true;
-      guest100.disabled = true;
-      break;
-
-    case '3':
-      guest3.disabled = false;
-      guest2.disabled = false;
-      guest1.disabled = false;
-      guest3.selected = true;
-      guest100.disabled = true;
-      break;
-
-    case '100 комнат':
-      guest3.disabled = true;
-      guest2.disabled = true;
-      guest1.disabled = true;
-      guest100.disabled = false;
-      guest100.selected = true;
-      break;
-  }
-
-});
-
-var rooms1 = rooms[0];
-var rooms2 = rooms[1];
-var rooms3 = rooms[2];
-var rooms100 = rooms[3];
-
-guest.addEventListener('change', function () {
-  switch (guest.value) {
-    case '1':
-      rooms1.disabled = false;
-      rooms2.disabled = false;
-      rooms3.disabled = false;
-      rooms1.selected = true;
-      rooms100.disabled = true;
-      break;
-
-    case '2':
-      rooms1.disabled = false;
-      rooms2.disabled = false;
-      rooms3.disabled = true;
-      rooms1.selected = true;
-      rooms100.disabled = true;
-      break;
-
-    case '3':
-      rooms1.disabled = false;
-      rooms2.disabled = false;
-      rooms3.disabled = false;
-      rooms1.selected = true;
-      rooms100.disabled = true;
-      break;
-
-    case 'не для гостей':
-      rooms1.disabled = true;
-      rooms2.disabled = true;
-      rooms3.disabled = true;
-      rooms100.selected = true;
-      rooms100.disabled = false;
-      break;
-  }
-
-});
