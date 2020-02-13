@@ -1,7 +1,8 @@
 'use strict';
 
 var map = document.querySelector('.map');
-/* var OFFER_TYPES = ['palace', 'flat', 'house', 'bungalo'];
+
+var OFFER_TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var RECORDS = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
@@ -86,14 +87,12 @@ var renderOffers = function (quantity) {
   }
 
   return result;
-};*/
+};
 
 
-// var offers = renderOffers(1);
-/* console.log(offers);
+var offers = renderOffers(1);
 
 
- //var map = document.querySelector('.map');
 var mapPinsContainer = document.querySelector('.map__pins');
 var templatePin = document.querySelector('#pin').content;
 
@@ -113,25 +112,25 @@ var createPinElement = function (informations) {
   return fragment;
 };
 
-mapPinsContainer.append(createPinElement(offers));
+//mapPinsContainer.append(createPinElement(offers));
 
 
-var mapPinWidth = mapPinsContainer.lastChild.offsetWidth;
-var mapPinHeight = mapPinsContainer.lastChild.offsetHeight;
-var pins = mapPinsContainer.querySelectorAll('.map__pin');
+//var mapPinWidth = mapPinsContainer.lastChild.offsetWidth;
+//var mapPinHeight = mapPinsContainer.lastChild.offsetHeight;
+// var pins = mapPinsContainer.querySelectorAll('.map__pin');
 
 
-var getPositionOnMap = function (marks, informations) {
+/*var getPositionOnMap = function (marks, informations) {
   for (var i = 0; i < marks.length - 1; i++) {
 
     marks[i + 1].style.left = informations[i].location.x - (mapPinWidth / 2) + 'px';
     marks[i + 1].style.top = informations[i].location.y - mapPinHeight + 'px';
   }
-};
+};*/
 
-getPositionOnMap(pins, offers);*/
+//getPositionOnMap(pins, offers);
 
-/*
+
 
 /*var mapFiltersContainer = document.querySelector('.map__filters-container');
 var templateCard = document.querySelector('#card').content;
@@ -303,6 +302,24 @@ var activStatus = function (evt) {
     removeDisabled(addFormFieldsets);
     removeDisabled(mapFilters);
     map.classList.remove('map--faded');
+    mapPinsContainer.append(createPinElement(offers));
+
+
+    var mapPinWidth = mapPinsContainer.lastChild.offsetWidth;
+    var mapPinHeight = mapPinsContainer.lastChild.offsetHeight;
+    var pins = mapPinsContainer.querySelectorAll('.map__pin');
+
+    var getPositionOnMap = function (marks, informations) {
+      for (var i = 0; i < marks.length - 1; i++) {
+
+        marks[i + 1].style.left = informations[i].location.x - (mapPinWidth / 2) + 'px';
+        marks[i + 1].style.top = informations[i].location.y - mapPinHeight + 'px';
+      }
+    };
+
+    getPositionOnMap(pins, offers);
+
+
     addressInput.value = getCoordinatePinMainActiv();
     addForm.classList.remove('ad-form--disabled');
   }
@@ -366,90 +383,78 @@ typeHous.addEventListener('change', function () {
 
 });
 
-var guest = document.querySelector('#capacity');
 var rooms = document.querySelector('#room_number');
+var guests = document.querySelector('#capacity');
 
 
-var guest100 = guest[3];
-var guest1 = guest[2];
-var guest2 = guest[1];
-var guest3 = guest[0];
+var checkSelected = function () {
 
-rooms.addEventListener('change', function () {
-  switch (rooms.value) {
-    case '1':
-      guest3.disabled = true;
-      guest2.disabled = true;
-      guest1.disabled = false;
-      guest1.selected = true;
-      guest100.disabled = true;
+  switch (true) {
+    case rooms.value === '1' && guests !== '1':
+      rooms.setCustomValidity('В одной комнате может проживать только один гость');
       break;
 
-    case '2':
-      guest3.disabled = true;
-      guest2.disabled = false;
-      guest1.disabled = false;
-      guest2.selected = true;
-      guest100.disabled = true;
+    case rooms.value === '2' && (guests !== '1' && guests !== '2'):
+      rooms.setCustomValidity('В двух комнатах могут продивать не более двух гостей');
       break;
 
-    case '3':
-      guest3.disabled = false;
-      guest2.disabled = false;
-      guest1.disabled = false;
-      guest3.selected = true;
-      guest100.disabled = true;
+    case rooms.value === '3' && (guests !== '1' && guests !== '2' && guests !== '3'):
+      rooms.setCustomValidity('В трёх комнатах могут проживать до трёх человек');
       break;
 
-    case '100 комнат':
-      guest3.disabled = true;
-      guest2.disabled = true;
-      guest1.disabled = true;
-      guest100.disabled = false;
-      guest100.selected = true;
+    case rooms.value === '100' && guests !== 'не для гостей':
+      rooms.setCustomValidity('Не для гостей');
+      break;
+
+    default:
+      rooms.setCustomValidity('');
       break;
   }
 
-});
+};
 
-var rooms1 = rooms[0];
-var rooms2 = rooms[1];
-var rooms3 = rooms[2];
-var rooms100 = rooms[3];
+rooms.addEventListener('change', checkSelected);
+guests.addEventListener('change', checkSelected);
 
-guest.addEventListener('change', function () {
-  switch (guest.value) {
-    case '1':
-      rooms1.disabled = false;
-      rooms2.disabled = false;
-      rooms3.disabled = false;
-      rooms1.selected = true;
-      rooms100.disabled = true;
+
+var timein = document.querySelector('#timein');
+var timeout = document.querySelector('#timeout');
+
+var setTimeinSelected = function () {
+
+  switch (true) {
+    case timein.value === '12:00':
+      timeout[0].selected = true;
       break;
 
-    case '2':
-      rooms1.disabled = false;
-      rooms2.disabled = false;
-      rooms3.disabled = true;
-      rooms1.selected = true;
-      rooms100.disabled = true;
+    case timein.value === '13:00':
+      timeout[1].selected = true;
       break;
 
-    case '3':
-      rooms1.disabled = false;
-      rooms2.disabled = false;
-      rooms3.disabled = false;
-      rooms1.selected = true;
-      rooms100.disabled = true;
-      break;
-
-    case 'не для гостей':
-      rooms1.disabled = true;
-      rooms2.disabled = true;
-      rooms3.disabled = true;
-      rooms100.selected = true;
-      rooms100.disabled = false;
+    case timein.value === '14:00':
+      timeout[2].selected = true;
       break;
   }
 
-});
+}
+
+var setTimeoutSelected = function () {
+
+  switch (true) {
+    case timeout.value === '12:00':
+      timein[0].selected = true;
+      break;
+
+    case timeout.value === '13:00':
+      timein[1].selected = true;
+      break;
+
+    case timeout.value === '14:00':
+      timein[2].selected = true;
+      break;
+  }
+
+}
+
+timein.addEventListener('change', setTimeinSelected);
+timeout.addEventListener('change', setTimeoutSelected);
