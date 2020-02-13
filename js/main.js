@@ -2,7 +2,7 @@
 
 var map = document.querySelector('.map');
 
-/* var OFFER_TYPES = ['palace', 'flat', 'house', 'bungalo'];
+var OFFER_TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var RECORDS = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
@@ -87,50 +87,52 @@ var renderOffers = function (quantity) {
   }
 
   return result;
-};*/
+};
 
 
-// var offers = renderOffers(1);
-/* console.log(offers);
+ var offers = renderOffers(1);
+ console.log(offers);
 
 
- //var map = document.querySelector('.map');
 var mapPinsContainer = document.querySelector('.map__pins');
 var templatePin = document.querySelector('#pin').content;
 
+var renderPin = function () {
+  var createPinElement = function (informations) {
+    var fragment = document.createDocumentFragment();
 
-var createPinElement = function (informations) {
-  var fragment = document.createDocumentFragment();
+    for (var i = 0; i < informations.length; i++) {
+      var mapPin = templatePin.querySelector('.map__pin').cloneNode(true);
+      var mapPinImg = mapPin.querySelector('img');
 
-  for (var i = 0; i < informations.length; i++) {
-    var mapPin = templatePin.querySelector('.map__pin').cloneNode(true);
-    var mapPinImg = mapPin.querySelector('img');
+      mapPinImg.src = informations[i].author.avatar;
+      mapPinImg.alt = informations[i].offer.title;
+      fragment.append(mapPin);
+    }
 
-    mapPinImg.src = informations[i].author.avatar;
-    mapPinImg.alt = informations[i].offer.title;
-    fragment.append(mapPin);
-  }
+    return fragment;
+  };
 
-  return fragment;
-};
-
-mapPinsContainer.append(createPinElement(offers));
-
-
-var mapPinWidth = mapPinsContainer.lastChild.offsetWidth;
-var mapPinHeight = mapPinsContainer.lastChild.offsetHeight;
-var pins = mapPinsContainer.querySelectorAll('.map__pin');
+  mapPinsContainer.append(createPinElement(offers));
 
 
-var getPositionOnMap = function (marks, informations) {
-  for (var i = 0; i < marks.length - 1; i++) {
+  var mapPinWidth = mapPinsContainer.lastChild.offsetWidth;
+  var mapPinHeight = mapPinsContainer.lastChild.offsetHeight;
+  var pins = mapPinsContainer.querySelectorAll('.map__pin');
 
-    marks[i + 1].style.left = informations[i].location.x - (mapPinWidth / 2) + 'px';
-    marks[i + 1].style.top = informations[i].location.y - mapPinHeight + 'px';
-  }
-};
 
-getPositionOnMap(pins, offers);*/
+  var getPositionOnMap = function (marks, informations) {
+    for (var i = 0; i < marks.length - 1; i++) {
+
+      marks[i + 1].style.left = informations[i].location.x - (mapPinWidth / 2) + 'px';
+      marks[i + 1].style.top = informations[i].location.y - mapPinHeight + 'px';
+    }
+  };
+
+  getPositionOnMap(pins, offers);
+
+}
+
 
 /*
 
@@ -259,6 +261,7 @@ var renderCards = function (informations) {
 
 map.insertBefore(renderCards(offers), mapFiltersContainer);*/
 
+
 var mapPinMain = document.querySelector('.map__pin--main');
 
 var PIN_MAIN_WIDTH = mapPinMain.offsetWidth;
@@ -293,6 +296,7 @@ var activStatus = function (evt) {
     removeDisabled(addFormFieldsets);
     removeDisabled(mapFilters);
     map.classList.remove('map--faded');
+    renderPin();
     addressInput.value = getCoordinatePinMainActiv();
     addForm.classList.remove('ad-form--disabled');
   }
