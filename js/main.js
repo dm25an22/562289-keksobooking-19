@@ -90,8 +90,7 @@ var renderOffers = function (quantity) {
 };
 
 
- var offers = renderOffers(1);
- console.log(offers);
+var offers = renderOffers(1);
 
 
 var mapPinsContainer = document.querySelector('.map__pins');
@@ -131,7 +130,7 @@ var renderPin = function () {
 
   getPositionOnMap(pins, offers);
 
-}
+};
 
 
 /*
