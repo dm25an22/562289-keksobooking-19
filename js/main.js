@@ -299,7 +299,7 @@ var activStatus = function (evt) {
     addressInput.value = getCoordinatePinMainActiv();
     addForm.classList.remove('ad-form--disabled');
 
-    mapPinMain.removeEventListener('mousedown',  activStatus);
+    mapPinMain.removeEventListener('mousedown', activStatus);
     mapPinMain.removeEventListener('keydown', activStatus);
   }
 };
@@ -318,7 +318,6 @@ setDisabled(mapFilters);
 
 
 mapPinMain.addEventListener('mousedown', activStatus);
-
 
 
 mapPinMain.addEventListener('keydown', activStatus);
