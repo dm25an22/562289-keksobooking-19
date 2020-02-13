@@ -298,6 +298,8 @@ var activStatus = function (evt) {
     renderPin();
     addressInput.value = getCoordinatePinMainActiv();
     addForm.classList.remove('ad-form--disabled');
+
+    mapPinMain.removeEventListener('mousedown',  activStatus)
   }
 };
 
@@ -314,13 +316,11 @@ setDisabled(addFormFieldsets);
 setDisabled(mapFilters);
 
 
-mapPinMain.addEventListener('mousedown', function (evt) {
-  activStatus(evt);
-});
+mapPinMain.addEventListener('mousedown', activStatus);
 
-mapPinMain.addEventListener('keydown', function (evt) {
-  activStatus(evt);
-});
+
+
+mapPinMain.addEventListener('keydown', activStatus);
 
 
 var rooms = document.querySelector('#room_number');
