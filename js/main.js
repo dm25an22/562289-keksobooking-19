@@ -329,16 +329,26 @@ var guests = document.querySelector('#capacity');
 
 var checkSelected = function () {
 
-  if (rooms.value === '1' && guests.value !== '1') {
-    rooms.setCustomValidity('В одной комнате может проживать только один гость');
-  } else if (rooms.value === '2' && (guests.value !== '1' && guests.value !== '2')) {
-    rooms.setCustomValidity('В двух комнатах могут проживать не более двух гостей');
-  } else if (rooms.value === '3' && (guests.value !== '1' && guests.value !== '2' && guests.value !== '3')) {
-    rooms.setCustomValidity('В трёх комнатах могут проживать до трёх человек');
-  } else if (rooms.value === '100' && guests.value !== '0') {
-    rooms.setCustomValidity('Не для гостей');
-  } else {
-    rooms.setCustomValidity('');
+  switch (true) {
+    case rooms.value === '1' && guests.value !== '1':
+      rooms.setCustomValidity('В одной комнате может проживать только один гость');
+      break;
+
+    case rooms.value === '2' && (guests.value !== '1' && guests.value !== '2'):
+      rooms.setCustomValidity('В двух комнатах могут проживать не более двух гостей');
+      break;
+
+    case rooms.value === '3' && (guests.value !== '1' && guests.value !== '2' && guests.value !== '3'):
+      rooms.setCustomValidity('В трёх комнатах могут проживать до трёх человек');
+      break;
+
+    case rooms.value === '100' && guests.value !== '0':
+      rooms.setCustomValidity('Не для гостей');
+      break;
+
+    default:
+      rooms.setCustomValidity('');
+      break;
   }
 
 };
