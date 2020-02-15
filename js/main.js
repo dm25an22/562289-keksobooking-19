@@ -273,7 +273,7 @@ var getCoordinatePinMain = function () {
 };
 
 var getCoordinatePinMainActiv = function () {
-  var y = mapPinMain.offsetTop + mapPinMain.offsetHeight + 15; // ??? при переходе страницы в активное состояние в поле адреса подставляются координаты острого конца метки
+  var y = mapPinMain.offsetTop + mapPinMain.offsetHeight + 15;
   var x = mapPinMain.offsetLeft + (PIN_MAIN_WIDTH / 2);
   return x + ', ' + y;
 };
