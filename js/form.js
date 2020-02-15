@@ -50,14 +50,14 @@
         break;
 
       case rooms.value === '2' && (guests.value !== '1' && guests.value !== '2'):
-        rooms.setCustomValidity('В двух комнатах могут продивать не более двух гостей');
+        rooms.setCustomValidity('В двух комнатах могут проживать не более двух гостей');
         break;
 
       case rooms.value === '3' && (guests.value !== '1' && guests.value !== '2' && guests.value !== '3'):
         rooms.setCustomValidity('В трёх комнатах могут проживать до трёх человек');
         break;
 
-      case rooms.value === '100' && guests.value !== 'не для гостей':
+      case rooms.value === '100' && guests.value !== '0':
         rooms.setCustomValidity('Не для гостей');
         break;
 
@@ -74,43 +74,18 @@
   var timein = document.querySelector('#timein');
   var timeout = document.querySelector('#timeout');
 
-  var setTimeinSelected = function () {
 
-    switch (true) {
-      case timein.value === '12:00':
-        timeout[0].selected = true;
-        break;
-
-      case timein.value === '13:00':
-        timeout[1].selected = true;
-        break;
-
-      case timein.value === '14:00':
-        timeout[2].selected = true;
-        break;
+  var setTimeSelected = function (evt) {
+    if (evt.target === timein) {
+      timeout.value = timein.value;
     }
 
-  }
-
-  var setTimeoutSelected = function () {
-
-    switch (true) {
-      case timeout.value === '12:00':
-        timein[0].selected = true;
-        break;
-
-      case timeout.value === '13:00':
-        timein[1].selected = true;
-        break;
-
-      case timeout.value === '14:00':
-        timein[2].selected = true;
-        break;
+    if (evt.target === timeout) {
+      timein.value = timeout.value;
     }
-
   }
 
-  timein.addEventListener('change', setTimeinSelected);
-  timeout.addEventListener('change', setTimeoutSelected);
+  timein.addEventListener('change', setTimeSelected);
+  timeout.addEventListener('change', setTimeSelected);
 
 })();
