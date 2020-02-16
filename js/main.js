@@ -1,11 +1,12 @@
 'use strict';
 
+var map = document.querySelector('.map');
+
 var OFFER_TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var RECORDS = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var NUMBERS_OF_PHOTO = 8;
-
 
 var getRandomNumber = function (min, max) {
   min = Math.ceil(min);
@@ -92,45 +93,49 @@ var renderOffers = function (quantity) {
 var offers = renderOffers(1);
 
 
-var map = document.querySelector('.map');
 var mapPinsContainer = document.querySelector('.map__pins');
-map.classList.remove('map--faded');
 var templatePin = document.querySelector('#pin').content;
 
+var renderPin = function () {
+  var createPinElement = function (informations) {
+    var fragment = document.createDocumentFragment();
 
-var createPinElement = function (informations) {
-  var fragment = document.createDocumentFragment();
+    for (var i = 0; i < informations.length; i++) {
+      var mapPin = templatePin.querySelector('.map__pin').cloneNode(true);
+      var mapPinImg = mapPin.querySelector('img');
 
-  for (var i = 0; i < informations.length; i++) {
-    var mapPin = templatePin.querySelector('.map__pin').cloneNode(true);
-    var mapPinImg = mapPin.querySelector('img');
+      mapPinImg.src = informations[i].author.avatar;
+      mapPinImg.alt = informations[i].offer.title;
+      fragment.append(mapPin);
+    }
 
-    mapPinImg.src = informations[i].author.avatar;
-    mapPinImg.alt = informations[i].offer.title;
-    fragment.append(mapPin);
-  }
+    return fragment;
+  };
 
-  return fragment;
+  mapPinsContainer.append(createPinElement(offers));
+
+
+  var mapPinWidth = mapPinsContainer.lastChild.offsetWidth;
+  var mapPinHeight = mapPinsContainer.lastChild.offsetHeight;
+  var pins = mapPinsContainer.querySelectorAll('.map__pin');
+
+
+  var getPositionOnMap = function (marks, informations) {
+    for (var i = 0; i < marks.length - 1; i++) {
+
+      marks[i + 1].style.left = informations[i].location.x - (mapPinWidth / 2) + 'px';
+      marks[i + 1].style.top = informations[i].location.y - mapPinHeight + 'px';
+    }
+  };
+
+  getPositionOnMap(pins, offers);
+
 };
 
-mapPinsContainer.append(createPinElement(offers));
 
-var mapPinWidth = mapPinsContainer.lastChild.offsetWidth;
-var mapPinHeight = mapPinsContainer.lastChild.offsetHeight;
-var pins = mapPinsContainer.querySelectorAll('.map__pin');
+/*
 
-
-var getPositionOnMap = function (marks, informations) {
-  for (var i = 0; i < marks.length - 1; i++) {
-
-    marks[i + 1].style.left = informations[i].location.x - (mapPinWidth / 2) + 'px';
-    marks[i + 1].style.top = informations[i].location.y - mapPinHeight + 'px';
-  }
-};
-
-getPositionOnMap(pins, offers);
-
-var mapFiltersContainer = document.querySelector('.map__filters-container');
+/*var mapFiltersContainer = document.querySelector('.map__filters-container');
 var templateCard = document.querySelector('#card').content;
 
 
@@ -155,6 +160,7 @@ var renderCards = function (informations) {
 
     var popupType = mapCard.querySelector('.popup__type');
     popupType.textContent = informations[i].offer.type;
+
 
     var houseTypes = {
       palace: 'Дворец ',
@@ -252,4 +258,102 @@ var renderCards = function (informations) {
   return fragment;
 };
 
-map.insertBefore(renderCards(offers), mapFiltersContainer);
+map.insertBefore(renderCards(offers), mapFiltersContainer);*/
+
+
+var mapPinMain = document.querySelector('.map__pin--main');
+
+var PIN_MAIN_WIDTH = mapPinMain.offsetWidth;
+var PIN_MAIN_HEIGTH = mapPinMain.offsetHeight;
+
+var getCoordinatePinMain = function () {
+  var y = mapPinMain.offsetTop + (PIN_MAIN_HEIGTH / 2);
+  var x = mapPinMain.offsetLeft + (PIN_MAIN_WIDTH / 2);
+  return x + ', ' + y;
+};
+
+var getCoordinatePinMainActiv = function () {
+  var y = mapPinMain.offsetTop + mapPinMain.offsetHeight + 15;
+  var x = mapPinMain.offsetLeft + (PIN_MAIN_WIDTH / 2);
+  return x + ', ' + y;
+};
+
+var setDisabled = function (arr) {
+  for (var i = 0; i < arr.length; i++) {
+    arr[i].disabled = true;
+  }
+};
+
+var removeDisabled = function (arr) {
+  for (var i = 0; i < arr.length; i++) {
+    arr[i].disabled = false;
+  }
+};
+
+var activStatus = function (evt) {
+  if (evt.button === 0 || evt.key === ENTER_KEY) {
+    removeDisabled(addFormFieldsets);
+    removeDisabled(mapFilters);
+    map.classList.remove('map--faded');
+    renderPin();
+    addressInput.value = getCoordinatePinMainActiv();
+    addForm.classList.remove('ad-form--disabled');
+
+    mapPinMain.removeEventListener('mousedown', activStatus);
+    mapPinMain.removeEventListener('keydown', activStatus);
+  }
+};
+
+
+var ENTER_KEY = 'Enter';
+var addForm = document.querySelector('.ad-form');
+var addFormFieldsets = addForm.querySelectorAll('fieldset');
+var mapFilters = document.querySelector('.map__filters');
+var addressInput = addForm.querySelector('input[name=address');
+addressInput.value = getCoordinatePinMain();
+
+
+setDisabled(addFormFieldsets);
+setDisabled(mapFilters);
+
+
+mapPinMain.addEventListener('mousedown', activStatus);
+
+
+mapPinMain.addEventListener('keydown', activStatus);
+
+
+var rooms = document.querySelector('#room_number');
+var guests = document.querySelector('#capacity');
+
+
+var checkSelected = function () {
+
+  switch (true) {
+    case rooms.value === '1' && guests.value !== '1':
+      rooms.setCustomValidity('В одной комнате может проживать только один гость');
+      break;
+
+    case rooms.value === '2' && (guests.value !== '1' && guests.value !== '2'):
+      rooms.setCustomValidity('В двух комнатах могут проживать не более двух гостей');
+      break;
+
+    case rooms.value === '3' && (guests.value !== '1' && guests.value !== '2' && guests.value !== '3'):
+      rooms.setCustomValidity('В трёх комнатах могут проживать до трёх человек');
+      break;
+
+    case rooms.value === '100' && guests.value !== '0':
+      rooms.setCustomValidity('Не для гостей');
+      break;
+
+    default:
+      rooms.setCustomValidity('');
+      break;
+  }
+
+};
+
+
+rooms.addEventListener('change', checkSelected);
+guests.addEventListener('change', checkSelected);
+
