@@ -8,6 +8,7 @@ var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditio
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var NUMBERS_OF_PHOTO = 8;
 
+
 var getRandomNumber = function (min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -41,6 +42,7 @@ var renderOffers = function (quantity) {
   var avatarsNumbers = [];
 
   for (var i = 1; i <= NUMBERS_OF_PHOTO; i++) {
+
     avatarsNumbers.push(i);
   }
 
@@ -194,6 +196,7 @@ var renderCards = function (informations) {
     var popupTextTime = mapCard.querySelector('.popup__text--time');
     popupTextTime.textContent = 'Заезд после ' + informations[i].offer.checkin + ', выезд до ' + informations[i].offer.checkout;
 
+<<<<<<< HEAD
 
     var popupFeaturesContainer = mapCard.querySelector('.popup__features');
     var items = popupFeaturesContainer.querySelectorAll('.popup__feature');
