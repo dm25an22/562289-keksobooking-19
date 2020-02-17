@@ -3,9 +3,8 @@
 (function () {
 
   var SUCCESS_CODE = 200;
-  var TIME_RESPONSE = 10000;
 
-  var setRequest = function (url, method, onLoad, onError) {
+  var setRequest = function (url, method, onLoad) {
 
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -13,29 +12,29 @@
     xhr.addEventListener('load', function () {
       if (xhr.status === SUCCESS_CODE) {
         onLoad(xhr.response);
-      } else {
-        //onError();
-        console.log('error');
       }
     });
-
-    xhr.addEventListener('error', function () {
-      //onError();
-    });
-
-    xhr.addEventListener('timeout', function () {
-      //onError();
-    });
-
-    xhr.timeout = TIME_RESPONSE;
 
     xhr.open(method, url);
     xhr.send();
 
-  }
-
-  window.backend = {
-    setRequest: setRequest
   };
+
+  window.QUANTITY_PINS = 1;
+
+  var createElementWhithCoord = window.createElementWhithCoord;
+  var createCard = window.createCard;
+
+  var onSuccsess = function (data) {
+
+    window.craeteActivePin = function () {
+      createElementWhithCoord(data);
+    };
+
+    createCard(data);
+
+  };
+
+  setRequest('https://js.dump.academy/keksobooking/data', 'GET', onSuccsess);
 
 })();
