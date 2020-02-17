@@ -128,6 +128,6 @@
     return fragment;
   };
 
-  map.insertBefore(renderCards(offers), mapFiltersContainer);
+  //map.insertBefore(renderCards(offers), mapFiltersContainer);
 
 })();
