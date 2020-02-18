@@ -65,4 +65,5 @@
 
   mapPinMain.addEventListener('keydown', activStatus);
 
+
 })();

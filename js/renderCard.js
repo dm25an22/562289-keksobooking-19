@@ -2,12 +2,10 @@
 
 (function () {
 
-  var map = document.querySelector('.map');
-  var mapFiltersContainer = document.querySelector('.map__filters-container');
   var templateCard = document.querySelector('#card').content;
 
 
-  var renderCard = function (informations) {
+  window.renderCard = function (informations) {
 
     var mapCard = templateCard.querySelector('.map__card').cloneNode(true);
 
@@ -106,17 +104,6 @@
     }
 
     return mapCard;
-  };
-
-  window.createCard = function (data) {
-
-    var fragment = document.createDocumentFragment();
-
-    for (var k = 0; k < window.QUANTITY_PINS; k++) {
-      fragment.append(renderCard(data[k]));
-    }
-
-    map.insertBefore(fragment, mapFiltersContainer);
   };
 
 })();
