@@ -40,7 +40,7 @@
       removeDisabled(addFormFieldsets);
       removeDisabled(mapFilters);
       map.classList.remove('map--faded');
-      window.renderPin();
+      window.craeteActivePin();
       addressInput.value = getCoordinatePinMainActiv();
       addForm.classList.remove('ad-form--disabled');
 
