@@ -19,7 +19,7 @@
 
   var getCoordinatePinMainActiv = function () {
     var pseudoAfterHeight = window.getComputedStyle(mapPinMain, ':after').height;
-    pseudoAfterHeight = parseInt(pseudoAfterHeight);
+    pseudoAfterHeight = parseInt(pseudoAfterHeight, 10);
     var y = mapPinMain.offsetTop + PIN_MAIN_HEIGTH + pseudoAfterHeight;
     var x = mapPinMain.offsetLeft + (PIN_MAIN_WIDTH / 2);
     return Math.floor(x) + ', ' + Math.floor(y);

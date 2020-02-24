@@ -83,7 +83,7 @@
     if (evt.target === timeout) {
       timein.value = timeout.value;
     }
-  }
+  };
 
   timein.addEventListener('change', setTimeSelected);
   timeout.addEventListener('change', setTimeSelected);
