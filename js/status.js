@@ -14,13 +14,15 @@
   var getCoordinatePinMain = function () {
     var y = mapPinMain.offsetTop + (PIN_MAIN_HEIGTH / 2);
     var x = mapPinMain.offsetLeft + (PIN_MAIN_WIDTH / 2);
-    return x + ', ' + y;
+    return Math.floor(x) + ', ' + Math.floor(y);
   };
 
   var getCoordinatePinMainActiv = function () {
-    var y = mapPinMain.offsetTop + mapPinMain.offsetHeight + 15; // ??? при переходе страницы в активное состояние в поле адреса подставляются координаты острого конца метки
+    var pseudoAfterHeight = window.getComputedStyle(mapPinMain, ':after').height;
+    pseudoAfterHeight = parseInt(pseudoAfterHeight);
+    var y = mapPinMain.offsetTop + PIN_MAIN_HEIGTH + pseudoAfterHeight;
     var x = mapPinMain.offsetLeft + (PIN_MAIN_WIDTH / 2);
-    return x + ', ' + y;
+    return Math.floor(x) + ', ' + Math.floor(y);
   };
 
   var setDisabled = function (arr) {
@@ -29,22 +31,21 @@
     }
   };
 
-  var removeDisabled = function (arr) {
+  window.removeDisabled = function (arr) {
     for (var i = 0; i < arr.length; i++) {
       arr[i].disabled = false;
     }
   };
 
+
   var activStatus = function (evt) {
     if (evt.button === 0 || evt.key === ENTER_KEY) {
-      removeDisabled(addFormFieldsets);
-      removeDisabled(mapFilters);
+      window.removeDisabled(addFormFieldsets);
       map.classList.remove('map--faded');
-      window.renderPin();
       addressInput.value = getCoordinatePinMainActiv();
       addForm.classList.remove('ad-form--disabled');
-
-      mapPinMain.removeEventListener('mousedown',  activStatus);
+      window.craeteActivePin();
+      mapPinMain.removeEventListener('mousedown', activStatus);
       mapPinMain.removeEventListener('keydown', activStatus);
     }
   };
