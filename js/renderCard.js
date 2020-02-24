@@ -114,24 +114,37 @@
     map.insertBefore(renderCard(obdj), mapFiltersContainer);
   };
 
+  var openCard = function (data, index) {
+    removeCard();
+    getCard(data[index - 1]);
+
+    var popupClose = document.querySelector('.popup__close');
+    document.addEventListener('keydown', onCardEscPress);
+    popupClose.addEventListener('click', removeCard);
+    popupClose.addEventListener('keydown', onCardEnterPress);
+  };
+
 
   var getActiveCard = function (data) {
     var pins = document.querySelectorAll('.map__pin');
 
     var addClickListener = function (index) {
       pins[index].addEventListener('click', function () {
-        removeCard();
-        getCard(data[index - 1]);
+        openCard(data, index);
+      });
+    };
 
-        var popupClose = document.querySelector('.popup__close');
-        document.addEventListener('keydown', onCardEscPress);
-        popupClose.addEventListener('click', removeCard);
-        popupClose.addEventListener('keydown', removeCard);
+    var addPressEnterListener = function (index) {
+      pins[index].addEventListener('keydown', function (evt) {
+        if (evt.key === window.keysCode.ENTER_KEY) {
+          openCard(data, index);
+        }
       });
     };
 
     for (var i = 1; i < pins.length; i++) {
       addClickListener(i);
+      addPressEnterListener(i);
     }
 
   };
@@ -142,12 +155,19 @@
     }
   };
 
+  var onCardEnterPress = function (evt) {
+    if (evt.key === window.keysCode.ENTER_KEY) {
+      removeCard();
+    }
+  };
+
   var removeCard = function () {
     var mapCard = document.querySelector('.map__card');
 
     if (mapCard) {
       mapCard.remove();
     }
+
     document.removeEventListener('keydown', onCardEscPress);
   };
 

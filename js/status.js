@@ -14,13 +14,15 @@
   var getCoordinatePinMain = function () {
     var y = mapPinMain.offsetTop + (PIN_MAIN_HEIGTH / 2);
     var x = mapPinMain.offsetLeft + (PIN_MAIN_WIDTH / 2);
-    return x + ', ' + y;
+    return Math.floor(x) + ', ' + Math.floor(y);
   };
 
   var getCoordinatePinMainActiv = function () {
-    var y = mapPinMain.offsetTop + mapPinMain.offsetHeight + 15;
+    var pseudoAfterHeight = window.getComputedStyle(mapPinMain, ':after').height;
+    pseudoAfterHeight = parseInt(pseudoAfterHeight, 10);
+    var y = mapPinMain.offsetTop + PIN_MAIN_HEIGTH + pseudoAfterHeight;
     var x = mapPinMain.offsetLeft + (PIN_MAIN_WIDTH / 2);
-    return x + ', ' + y;
+    return Math.floor(x) + ', ' + Math.floor(y);
   };
 
   var setDisabled = function (arr) {
@@ -52,7 +54,6 @@
   var addForm = document.querySelector('.ad-form');
   var addFormFieldsets = addForm.querySelectorAll('fieldset');
   var mapFilters = document.querySelector('.map__filters');
-
   var addressInput = addForm.querySelector('input[name=address');
   addressInput.value = getCoordinatePinMain();
 
@@ -64,6 +65,5 @@
   mapPinMain.addEventListener('mousedown', activStatus);
 
   mapPinMain.addEventListener('keydown', activStatus);
-
 
 })();
