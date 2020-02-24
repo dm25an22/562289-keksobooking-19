@@ -5,7 +5,7 @@
   var templateCard = document.querySelector('#card').content;
 
 
-  window.renderCard = function (informations) {
+  var renderCard = function (informations) {
 
     var mapCard = templateCard.querySelector('.map__card').cloneNode(true);
 
@@ -104,6 +104,56 @@
     }
 
     return mapCard;
+  };
+
+  var mapFiltersContainer = document.querySelector('.map__filters-container');
+  var map = document.querySelector('.map');
+
+
+  var getCard = function (obdj) {
+    map.insertBefore(renderCard(obdj), mapFiltersContainer);
+  };
+
+
+  var getActiveCard = function (data) {
+    var pins = document.querySelectorAll('.map__pin');
+
+    var addClickListener = function (index) {
+      pins[index].addEventListener('click', function () {
+        removeCard();
+        getCard(data[index - 1]);
+
+        var popupClose = document.querySelector('.popup__close');
+        document.addEventListener('keydown', onCardEscPress);
+        popupClose.addEventListener('click', removeCard);
+        popupClose.addEventListener('keydown', removeCard);
+      });
+    };
+
+    for (var i = 1; i < pins.length; i++) {
+      addClickListener(i);
+    }
+
+  };
+
+  var onCardEscPress = function (evt) {
+    if (evt.key === window.keysCode.ESC_KEY) {
+      removeCard();
+    }
+  };
+
+  var removeCard = function () {
+    var mapCard = document.querySelector('.map__card');
+
+    if (mapCard) {
+      mapCard.remove();
+    }
+    document.removeEventListener('keydown', onCardEscPress);
+  };
+
+  window.renderCard = {
+    getActiveCard: getActiveCard,
+    removeCard: removeCard
   };
 
 })();
