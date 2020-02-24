@@ -31,7 +31,7 @@
     }
   };
 
-  window.getPin = function (data) {
+  var getPin = function (data) {
     var fragmentPin = document.createDocumentFragment();
     var takeNumber = data.length > QUANTITY_PINS ? QUANTITY_PINS : data.length;
     var pins = mapPinsContainer.querySelectorAll('.map__pin');
@@ -52,6 +52,6 @@
 
   window.renderPin = {
     getPin: getPin
-  }
+  };
 
 })();

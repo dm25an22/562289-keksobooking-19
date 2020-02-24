@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  
+
   var QUANTITY_PINS = 5;
   var housingTypeSelect = document.querySelector('#housing-type');
 
@@ -13,7 +13,7 @@
     });
 
     if (housingTypeSelect.value === 'any') {
-      dataFilter = window.functions.getArrRandomElements(QUANTITY_PINS, dataArr);
+      dataFilter = window.functions.getArrRandomElements(QUANTITY_PINS, window.dataArr);
     }
 
     window.renderCard.removeCard();
