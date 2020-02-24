@@ -29,21 +29,20 @@
     }
   };
 
-  var removeDisabled = function (arr) {
+  window.removeDisabled = function (arr) {
     for (var i = 0; i < arr.length; i++) {
       arr[i].disabled = false;
     }
   };
 
+
   var activStatus = function (evt) {
     if (evt.button === 0 || evt.key === ENTER_KEY) {
-      removeDisabled(addFormFieldsets);
-      removeDisabled(mapFilters);
+      window.removeDisabled(addFormFieldsets);
       map.classList.remove('map--faded');
-      window.craeteActivePin();
       addressInput.value = getCoordinatePinMainActiv();
       addForm.classList.remove('ad-form--disabled');
-
+      window.craeteActivePin();
       mapPinMain.removeEventListener('mousedown', activStatus);
       mapPinMain.removeEventListener('keydown', activStatus);
     }
@@ -53,6 +52,7 @@
   var addForm = document.querySelector('.ad-form');
   var addFormFieldsets = addForm.querySelectorAll('fieldset');
   var mapFilters = document.querySelector('.map__filters');
+
   var addressInput = addForm.querySelector('input[name=address');
   addressInput.value = getCoordinatePinMain();
 
