@@ -17,14 +17,6 @@
     return Math.floor(x) + ', ' + Math.floor(y);
   };
 
-  var getCoordinatePinMainActiv = function () {
-    var pseudoAfterHeight = window.getComputedStyle(mapPinMain, ':after').height;
-    pseudoAfterHeight = parseInt(pseudoAfterHeight, 10);
-    var y = mapPinMain.offsetTop + PIN_MAIN_HEIGTH + pseudoAfterHeight;
-    var x = mapPinMain.offsetLeft + (PIN_MAIN_WIDTH / 2);
-    return Math.floor(x) + ', ' + Math.floor(y);
-  };
-
   var setDisabled = function (arr) {
     for (var i = 0; i < arr.length; i++) {
       arr[i].disabled = true;
@@ -42,7 +34,6 @@
     if (evt.button === 0 || evt.key === ENTER_KEY) {
       window.removeDisabled(addFormFieldsets);
       map.classList.remove('map--faded');
-      addressInput.value = getCoordinatePinMainActiv();
       addForm.classList.remove('ad-form--disabled');
       window.craeteActivePin();
       mapPinMain.removeEventListener('mousedown', activStatus);
@@ -65,5 +56,10 @@
   mapPinMain.addEventListener('mousedown', activStatus);
 
   mapPinMain.addEventListener('keydown', activStatus);
+
+  window.status = {
+    PIN_MAIN_WIDTH: PIN_MAIN_WIDTH,
+    PIN_MAIN_HEIGTH: PIN_MAIN_HEIGTH
+  };
 
 })();
