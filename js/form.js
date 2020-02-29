@@ -96,7 +96,7 @@
 
   var onSuccsessSend = function () {
     main.append(successTempaleClone);
-  
+
     var removeSuccessMessage = function (evt) {
       if (evt.target.matches('.success')) {
         successTempaleClone.remove();
