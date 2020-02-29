@@ -8,6 +8,8 @@
 
   var PIN_MAIN_WIDTH = mapPinMain.offsetWidth;
   var PIN_MAIN_HEIGTH = mapPinMain.offsetHeight;
+  var START_COORD_MAIN_PIN_LEFT = mapPinMain.offsetLeft;
+  var START_COORD_MAIN_PIN_TOP = mapPinMain.offsetTop;
 
   var ENTER_KEY = window.keysCode.ENTER_KEY;
 
@@ -23,43 +25,48 @@
     }
   };
 
-  window.removeDisabled = function (arr) {
+  var removeDisabled = function (arr) {
     for (var i = 0; i < arr.length; i++) {
       arr[i].disabled = false;
     }
   };
 
 
-  var activStatus = function (evt) {
+  window.activStatus = function (evt) {
     if (evt.button === 0 || evt.key === ENTER_KEY) {
-      window.removeDisabled(addFormFieldsets);
-      map.classList.remove('map--faded');
+      removeDisabled(addFormFieldsets);
+      removeDisabled(mapFilters);
       addForm.classList.remove('ad-form--disabled');
+      mapPinMain.removeEventListener('mousedown', window.activStatus);
+      mapPinMain.removeEventListener('keydown', window.activStatus);
       window.craeteActivePin();
-      mapPinMain.removeEventListener('mousedown', activStatus);
-      mapPinMain.removeEventListener('keydown', activStatus);
     }
   };
 
 
+  window.notActiveStatus = function () {
+    window.renderCard.removeCard();
+    window.renderPin.removePin();
+    setDisabled(mapFilters);
+    setDisabled(addFormFieldsets);
+    map.classList.add('map--faded');
+    addForm.classList.add('ad-form--disabled');
+    addForm.reset();
+    mapFilters.reset();
+    mapPinMain.style.left = START_COORD_MAIN_PIN_LEFT + 'px';
+    mapPinMain.style.top = START_COORD_MAIN_PIN_TOP + 'px';
+    addressInput.value = getCoordinatePinMain();
+    mapPinMain.addEventListener('mousedown', window.activStatus);
+    mapPinMain.addEventListener('keydown', window.activStatus);
+  };
+
+
   var addForm = document.querySelector('.ad-form');
-  var addFormFieldsets = addForm.querySelectorAll('fieldset');
+  var addFormFieldsets = addForm.querySelectorAll('.ad-form__element');
   var mapFilters = document.querySelector('.map__filters');
-  var addressInput = addForm.querySelector('input[name=address');
+  var addressInput = addForm.querySelector('input[name=address]');
   addressInput.value = getCoordinatePinMain();
 
-
-  setDisabled(addFormFieldsets);
-  setDisabled(mapFilters);
-
-
-  mapPinMain.addEventListener('mousedown', activStatus);
-
-  mapPinMain.addEventListener('keydown', activStatus);
-
-  window.status = {
-    PIN_MAIN_WIDTH: PIN_MAIN_WIDTH,
-    PIN_MAIN_HEIGTH: PIN_MAIN_HEIGTH
-  };
+  window.notActiveStatus();
 
 })();

@@ -88,4 +88,80 @@
   timein.addEventListener('change', setTimeSelected);
   timeout.addEventListener('change', setTimeSelected);
 
+
+  var main = document.querySelector('main');
+
+  var successTempale = document.querySelector('#success').content;
+  var successTempaleClone = successTempale.querySelector('.success').cloneNode(true);
+
+  var onSuccsessSend = function () {
+    main.append(successTempaleClone);
+  
+    var removeSuccessMessage = function (evt) {
+      if (evt.target.matches('.success')) {
+        successTempaleClone.remove();
+        window.notActiveStatus();
+        document.removeEventListener('click', removeSuccessMessage);
+      }
+    };
+
+    var removeSuccsessEsc = function (evt) {
+      if (evt.key === window.keysCode.ESC_KEY) {
+        successTempaleClone.remove();
+        window.notActiveStatus();
+      }
+      document.removeEventListener('keydown', removeSuccsessEsc);
+    };
+
+    document.addEventListener('click', removeSuccessMessage);
+    document.addEventListener('keydown', removeSuccsessEsc);
+
+  };
+
+  var error = document.querySelector('#error').content;
+  var errorClone = error.querySelector('.error').cloneNode(true);
+
+
+  var onErrorSend = function () {
+    main.append(errorClone);
+
+    var errorButton = document.querySelector('.error__button');
+
+    var removeErrorMessage = function (evt) {
+      if (evt.target.matches('.error')) {
+        errorClone.remove();
+        errorClone.removeEventListener('click', removeErrorMessage);
+      }
+      if (evt.target.matches('.error__button')) {
+        errorClone.remove();
+        errorButton.removeEventListener('click', removeErrorMessage);
+      }
+    };
+
+    var removeErrorMessageEsc = function (evt) {
+
+      if (evt.key === window.keysCode.ESC_KEY) {
+        errorClone.remove();
+      }
+      document.removeEventListener('keydown', removeErrorMessageEsc);
+    };
+
+    document.addEventListener('click', removeErrorMessage);
+    document.addEventListener('keydown', removeErrorMessageEsc);
+  };
+
+  var adForm = document.querySelector('.ad-form');
+
+  adForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    var formData = new FormData(adForm);
+    window.setRequest('https://js.dump.academy/keksobooking', 'POST', onSuccsessSend, formData, onErrorSend);
+  });
+
+  var resetButton = document.querySelector('.ad-form__reset');
+  resetButton.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    window.notActiveStatus();
+  });
+
 })();

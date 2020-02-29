@@ -31,17 +31,23 @@
     }
   };
 
-  var getPin = function (data) {
-    var fragmentPin = document.createDocumentFragment();
-    var takeNumber = data.length > QUANTITY_PINS ? QUANTITY_PINS : data.length;
+  var removePin = function () {
     var pins = mapPinsContainer.querySelectorAll('.map__pin');
-
     for (var k = 1; k < pins.length; k++) {
       pins[k].remove();
     }
+  };
+
+  var getPin = function (data) {
+    var fragmentPin = document.createDocumentFragment();
+    var takeNumber = data.length > QUANTITY_PINS ? QUANTITY_PINS : data.length;
+
+    removePin();
 
     for (var i = 0; i < takeNumber; i++) {
-      fragmentPin.append(window.renderPinElement(data[i]));
+      if (data[i].offer !== undefined) {
+        fragmentPin.append(window.renderPinElement(data[i]));
+      }
     }
 
     mapPinsContainer.append(fragmentPin);
@@ -51,7 +57,8 @@
   };
 
   window.renderPin = {
-    getPin: getPin
+    getPin: getPin,
+    removePin: removePin
   };
 
 })();

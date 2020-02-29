@@ -124,6 +124,11 @@
     popupClose.addEventListener('keydown', onCardEnterPress);
   };
 
+  var removeActiveClassPin = function (pinsArr) {
+    pinsArr.forEach(function (it) {
+      it.classList.remove('map__pin--active');
+    });
+  };
 
   var getActiveCard = function (data) {
     var pins = document.querySelectorAll('.map__pin');
@@ -131,6 +136,8 @@
     var addClickListener = function (index) {
       pins[index].addEventListener('click', function () {
         openCard(data, index);
+        removeActiveClassPin(pins);
+        pins[index].classList.add('map__pin--active');
       });
     };
 
@@ -138,6 +145,8 @@
       pins[index].addEventListener('keydown', function (evt) {
         if (evt.key === window.keysCode.ENTER_KEY) {
           openCard(data, index);
+          removeActiveClassPin(pins);
+          pins[index].classList.add('map__pin--active');
         }
       });
     };
@@ -163,9 +172,11 @@
 
   var removeCard = function () {
     var mapCard = document.querySelector('.map__card');
+    var pins = document.querySelectorAll('.map__pin');
 
     if (mapCard) {
       mapCard.remove();
+      removeActiveClassPin(pins);
     }
 
     document.removeEventListener('keydown', onCardEscPress);

@@ -1,20 +1,21 @@
 'use strict';
 
+var map = document.querySelector('.map');
+
 (function () {
-  var mapFilters = document.querySelector('.map__filters');
   window.dataArr = [];
 
-  var onSuccsess = function (data) {
+
+  var onSuccsessLoad = function (data) {
     window.dataArr = data;
 
     window.craeteActivePin = function () {
       window.renderPin.getPin(window.dataArr);
+      map.classList.remove('map--faded');
     };
-
-    window.removeDisabled(mapFilters);
 
   };
 
-  window.setRequest('https://js.dump.academy/keksobooking/data', 'GET', onSuccsess);
+  window.setRequest('https://js.dump.academy/keksobooking/data', 'GET', onSuccsessLoad);
 
 })();

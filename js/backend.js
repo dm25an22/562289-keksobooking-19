@@ -5,7 +5,7 @@
 
   var SUCCESS_CODE = 200;
 
-  window.setRequest = function (url, method, onLoad) {
+  window.setRequest = function (url, method, onLoad, data, onError) {
 
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -13,14 +13,18 @@
     xhr.addEventListener('load', function () {
       if (xhr.status === SUCCESS_CODE) {
         onLoad(xhr.response);
+      } else {
+        onError();
       }
+    });
 
+    xhr.addEventListener('error', function () {
+      onError('Произошла ошибка соединения');
     });
 
     xhr.open(method, url);
-    xhr.send();
+    xhr.send(data);
 
   };
-
 
 })();
