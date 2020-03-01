@@ -125,9 +125,12 @@
   };
 
   var removeActiveClassPin = function (pinsArr) {
-    pinsArr.forEach(function (it) {
-      it.classList.remove('map__pin--active');
-    });
+    for (var index = 0; index < pinsArr.length; index++) {
+      if (pinsArr[index].classList.contains('map__pin--active')) {
+        pinsArr[index].classList.remove('map__pin--active');
+        break;
+      }
+    }
   };
 
   var getActiveCard = function (data) {

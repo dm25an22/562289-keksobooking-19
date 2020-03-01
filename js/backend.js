@@ -5,7 +5,7 @@
 
   var SUCCESS_CODE = 200;
 
-  window.setRequest = function (url, method, onLoad, data, onError) {
+  window.setRequest = function (url, method, onLoad, onError, data) {
 
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
