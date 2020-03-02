@@ -56,6 +56,7 @@
     mapPinMain.style.left = START_COORD_MAIN_PIN_LEFT + 'px';
     mapPinMain.style.top = START_COORD_MAIN_PIN_TOP + 'px';
     addressInput.value = getCoordinatePinMain();
+    window.resetPreviousImg();
     mapPinMain.addEventListener('mousedown', window.activStatus);
     mapPinMain.addEventListener('keydown', window.activStatus);
   };
