@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  
+
   var COLOR_DROP_ZONA = '#999999';
   var COLOR_DROP_ZONA_HOVER = '#ff5635';
 
@@ -16,28 +16,8 @@
     dropZoneAvatar.style.color = COLOR_DROP_ZONA_HOVER;
   };
 
-  var dragoverApartament = function (evt) {
-    evt.stopPropagation();
-    evt.preventDefault();
-    dropZoneApartament.style.color = COLOR_DROP_ZONA_HOVER;
-  };
-
   var dragleaveAvatar = function () {
     dropZoneAvatar.style.color = COLOR_DROP_ZONA;
-  };
-
-  var dragleaveAparament = function () {
-    dropZoneApartament.style.color = COLOR_DROP_ZONA;
-  };
-
-  var dropApartament = function (evt) {
-    evt.stopPropagation();
-    evt.preventDefault();
-
-    var dt = evt.dataTransfer;
-    var files = dt.files;
-    handleFilesApartament(files);
-    dropZoneApartament.style.color = COLOR_DROP_ZONA;
   };
 
   var dropAvatar = function (evt) {
@@ -48,7 +28,6 @@
     var files = dt.files[0];
     handleFilesAvatar(files);
     dropZoneAvatar.style.color = COLOR_DROP_ZONA;
-
   };
 
 
@@ -79,28 +58,50 @@
   var fileChooserApartment = document.querySelector('.ad-form__upload input[type=file]');
   var previewApartment = document.querySelector('.ad-form__photo');
   var container = document.querySelector('.ad-form__photo-container');
-  var arrFilesApartamentImg = [];
+
+  var dragoverApartament = function (evt) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    dropZoneApartament.style.color = COLOR_DROP_ZONA_HOVER;
+  };
+
+  var dropApartament = function (evt) {
+    evt.stopPropagation();
+    evt.preventDefault();
+
+    var dt = evt.dataTransfer;
+    var files = dt.files;
+    handleFilesApartament(files);
+    dropZoneApartament.style.color = COLOR_DROP_ZONA;
+  };
+
+  var dragleaveAparament = function () {
+    dropZoneApartament.style.color = COLOR_DROP_ZONA;
+  };
 
   var handleFilesApartament = function (files) {
     previewApartment.remove();
     for (var index = 0; index < files.length; index++) {
       var file = files[index];
       var reader = new FileReader();
-      if (arrFilesApartamentImg.indexOf(file.name) === -1) {
-        arrFilesApartamentImg.push(file.name);
 
-        reader.addEventListener('load', function (evt) {
-          var clonePreviewApartment = previewApartment.cloneNode(true);
-          var newImg = document.createElement('img');
-          newImg.setAttribute('width', 70);
-          newImg.setAttribute('height', 70);
-          newImg.style.borderRadius = 'inherit';
-          newImg.src = evt.target.result;
-          clonePreviewApartment.append(newImg);
-          container.append(clonePreviewApartment);
+      reader.addEventListener('load', function (evt) {
+        var clonePreviewApartment = previewApartment.cloneNode(true);
+        var span = clonePreviewApartment.querySelector('span');
+        span.classList.remove('hidden');
+        span.classList.add('ad-form__photo--remove');
+        span.addEventListener('click', function () {
+          clonePreviewApartment.remove();
         });
-        reader.readAsDataURL(file);
-      }
+        var newImg = document.createElement('img');
+        newImg.setAttribute('width', 70);
+        newImg.setAttribute('height', 70);
+        newImg.style.borderRadius = 'inherit';
+        newImg.src = evt.target.result;
+        clonePreviewApartment.append(newImg);
+        container.append(clonePreviewApartment);
+      });
+      reader.readAsDataURL(file);
     }
   };
 
@@ -119,7 +120,6 @@
   window.resetPreviousImg = function () {
     var previewApartments = document.querySelectorAll('.ad-form__photo');
     previewAvatar.src = 'img/muffin-grey.svg';
-    arrFilesApartamentImg = [];
     previewApartments.forEach(function (it) {
       it.remove();
     });

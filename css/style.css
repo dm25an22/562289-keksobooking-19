@@ -809,12 +809,44 @@ fieldset {
 .ad-form__photo {
   margin-right: 10px;
   margin-bottom: 10px;
+  position: relative;
 
   width: 70px;
   height: 70px;
 
   background-color: #e4e4de;
   border-radius: 5px;
+}
+
+.ad-form__photo--remove {
+  visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  right: 0px;
+  top: 0px;
+
+  width: 20px;
+  height: 20px;
+  padding: 5px;
+
+
+  font-size: 17px;
+  font-family: serif;
+  color: #fff;
+  user-select: none;
+  
+  border-radius: inherit;
+  cursor: default;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.4);  
+  
+}
+
+.ad-form__photo:hover .ad-form__photo--remove{
+  visibility: visible;
 }
 
 .ad-form__element--submit {
