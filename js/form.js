@@ -98,7 +98,7 @@
         rooms.setCustomValidity('Не для гостей');
         rooms.style.borderColor = 'red';
         break;
-        
+
       default:
         rooms.setCustomValidity('');
         rooms.style.borderColor = 'white';
@@ -183,7 +183,7 @@
   };
 
 
-  window.onErrorSend = function () {
+  var onErrorSend = function () {
     main.append(errorClone);
 
     document.addEventListener('click', window.removeOnClickErrorMessage);
@@ -191,7 +191,7 @@
   };
 
   window.onErrorLoad = function () {
-    errorClone.querySelector('.error__message').innerHTML = 'Данные обявлений не были загружены <br> Попробуйте перезагрузить страницу';
+    errorClone.querySelector('.error__message').innerHTML = 'Данные объявлений не были загружены <br> Попробуйте перезагрузить страницу';
     main.append(errorClone);
 
     document.addEventListener('click', window.removeOnClickErrorMessage);
