@@ -183,7 +183,15 @@
   };
 
 
-  var onErrorSend = function () {
+  window.onErrorSend = function () {
+    main.append(errorClone);
+
+    document.addEventListener('click', window.removeOnClickErrorMessage);
+    document.addEventListener('keydown', window.removeOnPressErrorMessageEsc);
+  };
+
+  window.onErrorLoad = function () {
+    errorClone.querySelector('.error__message').innerHTML = 'Данные обявлений не были загружены <br> Попробуйте перезагрузить страницу';
     main.append(errorClone);
 
     document.addEventListener('click', window.removeOnClickErrorMessage);

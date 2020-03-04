@@ -87,12 +87,18 @@
 
       reader.addEventListener('load', function (evt) {
         var clonePreviewApartment = previewApartment.cloneNode(true);
-        var span = clonePreviewApartment.querySelector('span');
-        span.classList.remove('hidden');
-        span.classList.add('ad-form__photo--remove');
-        span.addEventListener('click', function () {
+
+        var closeButton = clonePreviewApartment.querySelector('span');
+        closeButton.classList.remove('hidden');
+        closeButton.classList.add('ad-form__photo--remove');
+
+        var removePreviousImg = function () {
           clonePreviewApartment.remove();
-        });
+          closeButton.removeEventListener('click', removePreviousImg);  
+        };
+
+        closeButton.addEventListener('click', removePreviousImg);
+        
         var newImg = document.createElement('img');
         newImg.setAttribute('width', 70);
         newImg.setAttribute('height', 70);
@@ -124,6 +130,13 @@
       it.remove();
     });
     container.append(previewApartment);
+    dropZoneAvatar.removeEventListener('drop', dropAvatar, false);
+    dropZoneApartament.removeEventListener('drop', dropApartament, false);
   };
+
+  window.activePreviuosImg = function () {
+    dropZoneAvatar.addEventListener('drop', dropAvatar, false);
+    dropZoneApartament.addEventListener('drop', dropApartament, false);
+  }
 
 })();
