@@ -94,11 +94,11 @@
 
         var removePreviousImg = function () {
           clonePreviewApartment.remove();
-          closeButton.removeEventListener('click', removePreviousImg);  
+          closeButton.removeEventListener('click', removePreviousImg);
         };
 
         closeButton.addEventListener('click', removePreviousImg);
-        
+
         var newImg = document.createElement('img');
         newImg.setAttribute('width', 70);
         newImg.setAttribute('height', 70);
@@ -137,6 +137,6 @@
   window.activePreviuosImg = function () {
     dropZoneAvatar.addEventListener('drop', dropAvatar, false);
     dropZoneApartament.addEventListener('drop', dropApartament, false);
-  }
+  };
 
 })();

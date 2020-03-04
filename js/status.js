@@ -39,7 +39,7 @@
       mapPinMain.removeEventListener('mousedown', window.activStatus);
       mapPinMain.removeEventListener('keydown', window.activStatus);
       map.classList.remove('map--faded');
-      
+
       if (window.isData) {
         window.renderPin.getPin(window.dataArr);
         removeDisabled(mapFilters);
