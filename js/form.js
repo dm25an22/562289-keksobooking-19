@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+
   var MIN_LENGTH_TITLE = 30;
   var MAX_LENGTH_TITLE = 100;
 
@@ -76,7 +77,7 @@
   var guests = document.querySelector('#capacity');
 
 
-  var checkSelected = function () {
+  var checkOnGuests = function () {
 
     switch (true) {
       case rooms.value === '1' && guests.value !== '1':
@@ -107,15 +108,15 @@
 
   };
 
-  rooms.addEventListener('change', checkSelected);
-  guests.addEventListener('change', checkSelected);
+  rooms.addEventListener('change', checkOnGuests);
+  guests.addEventListener('change', checkOnGuests);
 
 
   var timein = document.querySelector('#timein');
   var timeout = document.querySelector('#timeout');
 
 
-  var setTimeSelected = function (evt) {
+  var setOnTimeSelected = function (evt) {
     if (evt.target === timein) {
       timeout.value = timein.value;
     }
@@ -125,19 +126,20 @@
     }
   };
 
-  timein.addEventListener('change', setTimeSelected);
-  timeout.addEventListener('change', setTimeSelected);
+  timein.addEventListener('change', setOnTimeSelected);
+  timeout.addEventListener('change', setOnTimeSelected);
 
 
   var main = document.querySelector('main');
 
   var successTempale = document.querySelector('#success').content;
   var successTempaleClone = successTempale.querySelector('.success').cloneNode(true);
+  var notActiveStatus = window.condition.notActiveStatus;
 
   var removeOnClickSuccessMessage = function (evt) {
     if (evt.target.matches('.success')) {
       successTempaleClone.remove();
-      window.notActiveStatus();
+      notActiveStatus();
       document.removeEventListener('click', removeOnClickSuccessMessage);
     }
   };
@@ -145,7 +147,7 @@
   var removeOnPressSuccsessEsc = function (evt) {
     if (evt.key === window.keysCode.ESC_KEY) {
       successTempaleClone.remove();
-      window.notActiveStatus();
+      notActiveStatus();
     }
     document.removeEventListener('keydown', removeOnPressSuccsessEsc);
   };
@@ -161,41 +163,33 @@
   var error = document.querySelector('#error').content;
   var errorClone = error.querySelector('.error').cloneNode(true);
 
-  window.removeOnClickErrorMessage = function (evt) {
+  var removeOnClickErrorMessage = function (evt) {
     var errorButton = document.querySelector('.error__button');
 
     if (evt.target.matches('.error')) {
       errorClone.remove();
-      errorClone.removeEventListener('click', window.removeOnClickErrorMessage);
+      errorClone.removeEventListener('click', removeOnClickErrorMessage);
     }
     if (evt.target.matches('.error__button')) {
       errorClone.remove();
-      errorButton.removeEventListener('click', window.removeOnClickErrorMessage);
+      errorButton.removeEventListener('click', removeOnClickErrorMessage);
     }
   };
 
-  window.removeOnPressErrorMessageEsc = function (evt) {
+  var removeOnPressErrorMessageEsc = function (evt) {
 
     if (evt.key === window.keysCode.ESC_KEY) {
       errorClone.remove();
     }
-    document.removeEventListener('keydown', window.removeOnPressErrorMessageEsc);
+    document.removeEventListener('keydown', removeOnPressErrorMessageEsc);
   };
 
 
   var onErrorSend = function () {
     main.append(errorClone);
 
-    document.addEventListener('click', window.removeOnClickErrorMessage);
-    document.addEventListener('keydown', window.removeOnPressErrorMessageEsc);
-  };
-
-  window.onErrorLoad = function () {
-    errorClone.querySelector('.error__message').innerHTML = 'Данные объявлений не были загружены <br> Попробуйте перезагрузить страницу';
-    main.append(errorClone);
-
-    document.addEventListener('click', window.removeOnClickErrorMessage);
-    document.addEventListener('keydown', window.removeOnPressErrorMessageEsc);
+    document.addEventListener('click', removeOnClickErrorMessage);
+    document.addEventListener('keydown', removeOnPressErrorMessageEsc);
   };
 
   var adForm = document.querySelector('.ad-form');
@@ -208,9 +202,21 @@
 
   var resetButton = document.querySelector('.ad-form__reset');
   resetButton.addEventListener('click', function (evt) {
-    window.resetPreviousImg();
+    window.previous.resetPreviousImg();
     evt.preventDefault();
-    window.notActiveStatus();
+    notActiveStatus();
   });
+
+  var onClickErrorLoad = function () {
+    errorClone.querySelector('.error__message').innerHTML = 'Данные объявлений не были загружены <br> Попробуйте перезагрузить страницу';
+    main.append(errorClone);
+
+    document.addEventListener('click', removeOnClickErrorMessage);
+    document.addEventListener('keydown', removeOnPressErrorMessageEsc);
+  };
+
+  window.form = {
+    onClickErrorLoad: onClickErrorLoad
+  };
 
 })();

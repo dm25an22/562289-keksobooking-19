@@ -5,7 +5,7 @@
   var templateCard = document.querySelector('#card').content;
 
 
-  var renderCard = function (informations) {
+  window.renderCard = function (informations) {
 
     var mapCard = templateCard.querySelector('.map__card').cloneNode(true);
 
@@ -51,9 +51,10 @@
     var elevatorIcon = mapCard.querySelector('.popup__feature--elevator');
     var conditionerIcon = mapCard.querySelector('.popup__feature--conditioner');
 
-    for (var t = 0; t < items.length; t++) {
-      items[t].remove();
-    }
+
+    items.forEach(function (it) {
+      it.remove();
+    });
 
     for (var j = 0; j < informations.offer.features.length; j++) {
 
@@ -96,98 +97,14 @@
     if (informations.offer.photos.length === 0) {
       popupPhotos.remove();
     } else if (informations.offer.photos.length > 1) {
-      for (var k = 1; k < informations.offer.photos.length; k++) {
+      informations.offer.photos.forEach(function (it) {
         var popupPhotoClone = popupPhoto.cloneNode(true);
-        popupPhotoClone.src = informations.offer.photos[k];
+        popupPhotoClone.src = it;
         popupPhotos.append(popupPhotoClone);
-      }
+      });
     }
 
     return mapCard;
-  };
-
-  var mapFiltersContainer = document.querySelector('.map__filters-container');
-  var map = document.querySelector('.map');
-
-
-  var getCard = function (obdj) {
-    map.insertBefore(renderCard(obdj), mapFiltersContainer);
-  };
-
-  var openCard = function (data, index) {
-    removeCard();
-    getCard(data[index - 1]);
-
-    var popupClose = document.querySelector('.popup__close');
-    document.addEventListener('keydown', onCardEscPress);
-    popupClose.addEventListener('click', removeCard);
-    popupClose.addEventListener('keydown', onCardEnterPress);
-  };
-
-  var removeActiveClassPin = function (pinsArr) {
-    for (var index = 0; index < pinsArr.length; index++) {
-      if (pinsArr[index].classList.contains('map__pin--active')) {
-        pinsArr[index].classList.remove('map__pin--active');
-        break;
-      }
-    }
-  };
-
-  var getActiveCard = function (data) {
-    var pins = document.querySelectorAll('.map__pin');
-
-    var addClickListener = function (index) {
-      pins[index].addEventListener('click', function () {
-        openCard(data, index);
-        removeActiveClassPin(pins);
-        pins[index].classList.add('map__pin--active');
-      });
-    };
-
-    var addPressEnterListener = function (index) {
-      pins[index].addEventListener('keydown', function (evt) {
-        if (evt.key === window.keysCode.ENTER_KEY) {
-          openCard(data, index);
-          removeActiveClassPin(pins);
-          pins[index].classList.add('map__pin--active');
-        }
-      });
-    };
-
-    for (var i = 1; i < pins.length; i++) {
-      addClickListener(i);
-      addPressEnterListener(i);
-    }
-
-  };
-
-  var onCardEscPress = function (evt) {
-    if (evt.key === window.keysCode.ESC_KEY) {
-      removeCard();
-    }
-  };
-
-  var onCardEnterPress = function (evt) {
-    if (evt.key === window.keysCode.ENTER_KEY) {
-      removeCard();
-    }
-  };
-
-  var removeCard = function () {
-    var mapCard = document.querySelector('.map__card');
-    var pins = document.querySelectorAll('.map__pin');
-
-    if (mapCard) {
-      mapCard.remove();
-      removeActiveClassPin(pins);
-    }
-
-    document.removeEventListener('keydown', onCardEscPress);
-  };
-
-  window.renderCard = {
-    getActiveCard: getActiveCard,
-    removeCard: removeCard
   };
 
 })();

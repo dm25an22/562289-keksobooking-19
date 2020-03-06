@@ -1,9 +1,6 @@
 'use strict';
 
 (function () {
-  window.dataArr = [];
-  window.isData = false;
-
 
   var onSuccsessLoad = function (data) {
     window.dataArr = data;

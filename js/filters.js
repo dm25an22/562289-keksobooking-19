@@ -24,8 +24,8 @@
   };
 
   var onChangeFilter = window.debounce(function (filter) {
-    window.renderCard.removeCard();
-    window.renderPin.getPin(filter);
+    window.card.removeCard();
+    window.pin.getPin(filter);
   });
 
 
@@ -70,13 +70,13 @@
       });
     }
 
-    for (var index = 0; index < housingFeatures.length; index++) {
-      if (housingFeatures[index].checked) {
-        dataFilter = dataFilter.filter(function (ite) {
-          return checkAvailability(ite.offer.features, housingFeatures[index].value);
+    housingFeatures.forEach(function (it) {
+      if (it.checked) {
+        dataFilter = dataFilter.filter(function (item) {
+          return checkAvailability(item.offer.features, it.value);
         });
       }
-    }
+    });
 
     onChangeFilter(dataFilter);
   });

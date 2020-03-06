@@ -2,16 +2,15 @@
 
 (function () {
 
-  var map = document.querySelector('.map');
-
   var mapPinMain = document.querySelector('.map__pin--main');
 
   var PIN_MAIN_WIDTH = mapPinMain.offsetWidth;
   var PIN_MAIN_HEIGTH = mapPinMain.offsetHeight;
   var START_COORD_MAIN_PIN_LEFT = mapPinMain.offsetLeft;
   var START_COORD_MAIN_PIN_TOP = mapPinMain.offsetTop;
-
   var ENTER_KEY = window.keysCode.ENTER_KEY;
+
+  var map = document.querySelector('.map');
 
   var getCoordinatePinMain = function () {
     var y = mapPinMain.offsetTop + (PIN_MAIN_HEIGTH / 2);
@@ -31,28 +30,27 @@
     }
   };
 
-  window.activStatus = function (evt) {
+  var onActivStatus = function (evt) {
     if (evt.button === 0 || evt.key === ENTER_KEY) {
       removeDisabled(addFormFieldsets);
-      window.activePreviuosImg();
+      window.previous.activePreviuosImg();
       addForm.classList.remove('ad-form--disabled');
-      mapPinMain.removeEventListener('mousedown', window.activStatus);
-      mapPinMain.removeEventListener('keydown', window.activStatus);
+      mapPinMain.removeEventListener('mousedown', onActivStatus);
+      mapPinMain.removeEventListener('keydown', onActivStatus);
       map.classList.remove('map--faded');
 
       if (window.isData) {
-        window.renderPin.getPin(window.dataArr);
+        window.pin.getPin(window.dataArr);
         removeDisabled(mapFilters);
       } else {
-        window.onErrorLoad();
+        window.form.onClickErrorLoad();
       }
     }
   };
 
-
-  window.notActiveStatus = function () {
-    window.renderCard.removeCard();
-    window.renderPin.removePin();
+  var notActiveStatus = function () {
+    window.card.removeCard();
+    window.pin.removePin();
     setDisabled(mapFilters);
     setDisabled(addFormFieldsets);
     map.classList.add('map--faded');
@@ -62,9 +60,9 @@
     mapPinMain.style.left = START_COORD_MAIN_PIN_LEFT + 'px';
     mapPinMain.style.top = START_COORD_MAIN_PIN_TOP + 'px';
     addressInput.value = getCoordinatePinMain();
-    window.resetPreviousImg();
-    mapPinMain.addEventListener('mousedown', window.activStatus);
-    mapPinMain.addEventListener('keydown', window.activStatus);
+    window.previous.resetPreviousImg();
+    mapPinMain.addEventListener('mousedown', onActivStatus);
+    mapPinMain.addEventListener('keydown', onActivStatus);
   };
 
 
@@ -74,6 +72,11 @@
   var addressInput = addForm.querySelector('input[name=address]');
   addressInput.value = getCoordinatePinMain();
 
-  window.notActiveStatus();
+  notActiveStatus();
+
+  window.condition = {
+    onActivStatus: onActivStatus,
+    notActiveStatus: notActiveStatus
+  };
 
 })();

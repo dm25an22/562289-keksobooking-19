@@ -5,22 +5,22 @@
   var COLOR_DROP_ZONA = '#999999';
   var COLOR_DROP_ZONA_HOVER = '#ff5635';
 
-  var dragenter = function (evt) {
+  var onDragenter = function (evt) {
     evt.stopPropagation();
     evt.preventDefault();
   };
 
-  var dragoverAvatar = function (evt) {
+  var onDragoverAvatar = function (evt) {
     evt.stopPropagation();
     evt.preventDefault();
     dropZoneAvatar.style.color = COLOR_DROP_ZONA_HOVER;
   };
 
-  var dragleaveAvatar = function () {
+  var onDragleaveAvatar = function () {
     dropZoneAvatar.style.color = COLOR_DROP_ZONA;
   };
 
-  var dropAvatar = function (evt) {
+  var onDropAvatar = function (evt) {
     evt.stopPropagation();
     evt.preventDefault();
 
@@ -50,22 +50,22 @@
   });
 
   var dropZoneAvatar = document.querySelector('.ad-form-header__drop-zone');
-  dropZoneAvatar.addEventListener('dragenter', dragenter, false);
-  dropZoneAvatar.addEventListener('dragover', dragoverAvatar, false);
-  dropZoneAvatar.addEventListener('dragleave', dragleaveAvatar, false);
-  dropZoneAvatar.addEventListener('drop', dropAvatar, false);
+  dropZoneAvatar.addEventListener('dragenter', onDragenter, false);
+  dropZoneAvatar.addEventListener('dragover', onDragoverAvatar, false);
+  dropZoneAvatar.addEventListener('dragleave', onDragleaveAvatar, false);
+  dropZoneAvatar.addEventListener('drop', onDropAvatar, false);
 
   var fileChooserApartment = document.querySelector('.ad-form__upload input[type=file]');
   var previewApartment = document.querySelector('.ad-form__photo');
   var container = document.querySelector('.ad-form__photo-container');
 
-  var dragoverApartament = function (evt) {
+  var onDragoverApartament = function (evt) {
     evt.stopPropagation();
     evt.preventDefault();
     dropZoneApartament.style.color = COLOR_DROP_ZONA_HOVER;
   };
 
-  var dropApartament = function (evt) {
+  var onDropApartament = function (evt) {
     evt.stopPropagation();
     evt.preventDefault();
 
@@ -75,14 +75,15 @@
     dropZoneApartament.style.color = COLOR_DROP_ZONA;
   };
 
-  var dragleaveAparament = function () {
+  var onDragleaveAparament = function () {
     dropZoneApartament.style.color = COLOR_DROP_ZONA;
   };
 
   var handleFilesApartament = function (files) {
     previewApartment.remove();
-    for (var index = 0; index < files.length; index++) {
-      var file = files[index];
+
+    Array.from(files).forEach(function (it) {
+      var file = it;
       var reader = new FileReader();
 
       reader.addEventListener('load', function (evt) {
@@ -108,7 +109,7 @@
         container.append(clonePreviewApartment);
       });
       reader.readAsDataURL(file);
-    }
+    });
   };
 
 
@@ -118,25 +119,30 @@
 
   var dropZoneApartament = document.querySelector('.ad-form__drop-zone');
 
-  dropZoneApartament.addEventListener('dragenter', dragenter, false);
-  dropZoneApartament.addEventListener('dragover', dragoverApartament, false);
-  dropZoneApartament.addEventListener('dragleave', dragleaveAparament, false);
-  dropZoneApartament.addEventListener('drop', dropApartament, false);
+  dropZoneApartament.addEventListener('dragenter', onDragenter, false);
+  dropZoneApartament.addEventListener('dragover', onDragoverApartament, false);
+  dropZoneApartament.addEventListener('dragleave', onDropApartament, false);
+  dropZoneApartament.addEventListener('drop', onDragleaveAparament, false);
 
-  window.resetPreviousImg = function () {
+  var resetPreviousImg = function () {
     var previewApartments = document.querySelectorAll('.ad-form__photo');
     previewAvatar.src = 'img/muffin-grey.svg';
     previewApartments.forEach(function (it) {
       it.remove();
     });
     container.append(previewApartment);
-    dropZoneAvatar.removeEventListener('drop', dropAvatar, false);
-    dropZoneApartament.removeEventListener('drop', dropApartament, false);
+    dropZoneAvatar.removeEventListener('drop', onDropAvatar, false);
+    dropZoneApartament.removeEventListener('drop', onDropApartament, false);
   };
 
-  window.activePreviuosImg = function () {
-    dropZoneAvatar.addEventListener('drop', dropAvatar, false);
-    dropZoneApartament.addEventListener('drop', dropApartament, false);
+  var activePreviuosImg = function () {
+    dropZoneAvatar.addEventListener('drop', onDropAvatar, false);
+    dropZoneApartament.addEventListener('drop', onDropApartament, false);
+  };
+
+  window.previous = {
+    resetPreviousImg: resetPreviousImg,
+    activePreviuosImg: activePreviuosImg
   };
 
 })();

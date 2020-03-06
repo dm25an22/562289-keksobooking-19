@@ -2,7 +2,6 @@
 
 (function () {
 
-
   var SUCCESS_CODE = 200;
 
   window.setRequest = function (url, method, onLoad, onError, data) {
