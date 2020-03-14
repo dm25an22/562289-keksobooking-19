@@ -22,12 +22,9 @@
   };
 
   var removeActiveClassPin = function (pinsArr) {
-    for (var index = 0; index < pinsArr.length; index++) {
-      if (pinsArr[index].classList.contains('map__pin--active')) {
-        pinsArr[index].classList.remove('map__pin--active');
-        break;
-      }
-    }
+    pinsArr.forEach(function (it) {
+      it.classList.remove('map__pin--active');
+    });
   };
 
   var getActiveCard = function (data) {
@@ -51,11 +48,12 @@
       });
     };
 
-    for (var i = 1; i < pins.length; i++) {
-      addClickListener(i);
-      addPressEnterListener(i);
-    }
-
+    Array.from(pins).slice(1).forEach(function (it, i) {
+      var index = i + 1;
+      addClickListener(index);
+      addPressEnterListener(index);
+    });
+    
   };
 
   var onCardEscPress = function (evt) {

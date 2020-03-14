@@ -4,8 +4,8 @@
 
   var mapPinMain = document.querySelector('.map__pin--main');
 
-  var PIN_MAIN_WIDTH = mapPinMain.offsetWidth;
-  var PIN_MAIN_HEIGTH = mapPinMain.offsetHeight;
+  var pinMainWidth = mapPinMain.offsetWidth;
+  var pinMainHeigth = mapPinMain.offsetHeight;
 
   var addressInput = document.querySelector('input[name=address');
   var mapOver = document.querySelector('.map__overlay');
@@ -13,8 +13,8 @@
   pseudoAfterHeight = parseInt(pseudoAfterHeight, 10);
 
   var getCoordinatePinMainActiv = function () {
-    var y = mapPinMain.offsetTop + PIN_MAIN_HEIGTH + pseudoAfterHeight;
-    var x = mapPinMain.offsetLeft + (PIN_MAIN_WIDTH / 2);
+    var y = mapPinMain.offsetTop + pinMainHeigth + pseudoAfterHeight;
+    var x = mapPinMain.offsetLeft + (pinMainWidth / 2);
     return Math.floor(x) + ', ' + Math.floor(y);
   };
 
@@ -29,12 +29,12 @@
       var newLeft = evtMove.clientX - shift.x - mapOver.getBoundingClientRect().left;
       var newTop = evtMove.clientY - shift.y - mapOver.getBoundingClientRect().top;
 
-      var topEdge = 130 - (PIN_MAIN_HEIGTH + pseudoAfterHeight);
+      var topEdge = 130 - (pinMainHeigth + pseudoAfterHeight);
       if (newTop < topEdge) {
         newTop = topEdge;
       }
 
-      var bottomEdge = 630 - (PIN_MAIN_HEIGTH + pseudoAfterHeight);
+      var bottomEdge = 630 - (pinMainHeigth + pseudoAfterHeight);
       if (newTop > bottomEdge) {
         newTop = bottomEdge;
       }

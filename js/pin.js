@@ -10,18 +10,18 @@
     var mapPinWidth = mapPinsContainer.lastChild.offsetWidth;
     var mapPinHeight = mapPinsContainer.lastChild.offsetHeight;
 
-    for (var i = 0; i < pins.length - 1; i++) {
+    Array.from(pins).slice(1).forEach(function (it, i) {
+      it.style.left = data[i].location.x - (mapPinWidth / 2) + 'px';
+      it.style.top = data[i].location.y - mapPinHeight + 'px';
+    });
 
-      pins[i + 1].style.left = data[i].location.x - (mapPinWidth / 2) + 'px';
-      pins[i + 1].style.top = data[i].location.y - mapPinHeight + 'px';
-    }
   };
 
   var removePin = function () {
     var pins = mapPinsContainer.querySelectorAll('.map__pin');
-    for (var k = 1; k < pins.length; k++) {
-      pins[k].remove();
-    }
+    Array.from(pins).slice(1).forEach(function (it, i) {
+      it.remove();
+    });
   };
 
   var getPin = function (data) {

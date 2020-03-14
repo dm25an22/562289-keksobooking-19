@@ -17,6 +17,8 @@
     high: 50000
   };
 
+  var shuffle = window.condition.shuffle;
+
   var checkAvailability = function (arr, val) {
     return arr.some(function (element) {
       return val === element;
@@ -78,7 +80,7 @@
       }
     });
 
-    onChangeFilter(dataFilter);
+    onChangeFilter(shuffle(dataFilter));
   });
 
 })();

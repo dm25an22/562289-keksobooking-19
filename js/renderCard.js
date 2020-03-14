@@ -56,9 +56,8 @@
       it.remove();
     });
 
-    for (var j = 0; j < informations.offer.features.length; j++) {
-
-      switch (informations.offer.features[j]) {
+    informations.offer.features.forEach(function (it) {
+      switch (it) {
         case 'wifi':
           popupFeaturesContainer.append(wifiIcon);
           break;
@@ -84,8 +83,7 @@
           break;
       }
 
-    }
-
+    });
 
     var popupDescription = mapCard.querySelector('.popup__description');
     popupDescription.textContent = informations.offer.description;
