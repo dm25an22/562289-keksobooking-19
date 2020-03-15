@@ -3,6 +3,7 @@
 (function () {
 
   var QUANTITY_PINS = 5;
+
   var mapPinsContainer = document.querySelector('.map__pins');
 
   var getPositionOnMap = function (data) {
@@ -19,7 +20,7 @@
 
   var removePin = function () {
     var pins = mapPinsContainer.querySelectorAll('.map__pin');
-    Array.from(pins).slice(1).forEach(function (it, i) {
+    Array.from(pins).slice(1).forEach(function (it) {
       it.remove();
     });
   };

@@ -93,12 +93,18 @@
         closeButton.classList.remove('hidden');
         closeButton.classList.add('ad-form__photo--remove');
 
-        var removePreviousImg = function () {
+        var onCloseButtonClick = function () {
+          var photos = container.querySelectorAll('.ad-form__photo');
+
           clonePreviewApartment.remove();
-          closeButton.removeEventListener('click', removePreviousImg);
+          closeButton.removeEventListener('click', onCloseButtonClick);
+
+          if (photos.length === 1) {
+            container.append(previewApartment);
+          }
         };
 
-        closeButton.addEventListener('click', removePreviousImg);
+        closeButton.addEventListener('click', onCloseButtonClick);
 
         var newImg = document.createElement('img');
         newImg.setAttribute('width', 70);
@@ -108,6 +114,7 @@
         clonePreviewApartment.append(newImg);
         container.append(clonePreviewApartment);
       });
+
       reader.readAsDataURL(file);
     });
   };

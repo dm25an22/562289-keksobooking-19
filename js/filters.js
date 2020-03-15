@@ -17,7 +17,7 @@
     high: 50000
   };
 
-  var shuffle = window.condition.shuffle;
+  var getMixedArray = window.condition.getMixedArray;
 
   var checkAvailability = function (arr, val) {
     return arr.some(function (element) {
@@ -25,7 +25,7 @@
     });
   };
 
-  var onChangeFilter = window.debounce(function (filter) {
+  var onFilterChange = window.debounce(function (filter) {
     window.card.removeCard();
     window.pin.getPin(filter);
   });
@@ -80,7 +80,7 @@
       }
     });
 
-    onChangeFilter(shuffle(dataFilter));
+    onFilterChange(getMixedArray(dataFilter));
   });
 
 })();

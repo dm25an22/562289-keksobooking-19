@@ -2,6 +2,8 @@
 
 (function () {
 
+  var ENTER_KEY = window.keysCode.ESC_KEY;
+
   var mapFiltersContainer = document.querySelector('.map__filters-container');
   var map = document.querySelector('.map');
 
@@ -16,8 +18,8 @@
     getCard(data[index - 1]);
 
     var popupClose = document.querySelector('.popup__close');
-    document.addEventListener('keydown', onCardEscPress);
-    popupClose.addEventListener('click', removeCard);
+    document.addEventListener('keydown', onDocumentCardEscPress);
+    popupClose.addEventListener('click', onPopupCloseClick);
     popupClose.addEventListener('keydown', onCardEnterPress);
   };
 
@@ -30,7 +32,7 @@
   var getActiveCard = function (data) {
     var pins = document.querySelectorAll('.map__pin');
 
-    var addClickListener = function (index) {
+    var onPinClick = function (index) {
       pins[index].addEventListener('click', function () {
         openCard(data, index);
         removeActiveClassPin(pins);
@@ -38,9 +40,9 @@
       });
     };
 
-    var addPressEnterListener = function (index) {
+    var onPinEnterPress = function (index) {
       pins[index].addEventListener('keydown', function (evt) {
-        if (evt.key === window.keysCode.ENTER_KEY) {
+        if (evt.key === ENTER_KEY) {
           openCard(data, index);
           removeActiveClassPin(pins);
           pins[index].classList.add('map__pin--active');
@@ -50,20 +52,20 @@
 
     Array.from(pins).slice(1).forEach(function (it, i) {
       var index = i + 1;
-      addClickListener(index);
-      addPressEnterListener(index);
+      onPinClick(index);
+      onPinEnterPress(index);
     });
-    
+
   };
 
-  var onCardEscPress = function (evt) {
-    if (evt.key === window.keysCode.ESC_KEY) {
+  var onDocumentCardEscPress = function (evt) {
+    if (evt.key === ENTER_KEY) {
       removeCard();
     }
   };
 
   var onCardEnterPress = function (evt) {
-    if (evt.key === window.keysCode.ENTER_KEY) {
+    if (evt.key === ENTER_KEY) {
       removeCard();
     }
   };
@@ -77,8 +79,10 @@
       removeActiveClassPin(pins);
     }
 
-    document.removeEventListener('keydown', onCardEscPress);
+    document.removeEventListener('keydown', onDocumentCardEscPress);
   };
+
+  var onPopupCloseClick = removeCard;
 
   window.card = {
     getActiveCard: getActiveCard,

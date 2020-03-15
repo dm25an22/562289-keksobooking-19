@@ -77,7 +77,7 @@
   var guests = document.querySelector('#capacity');
 
 
-  var checkOnGuests = function () {
+  var onRoomsGuestsChange = function () {
 
     switch (true) {
       case rooms.value === '1' && guests.value !== '1':
@@ -108,15 +108,15 @@
 
   };
 
-  rooms.addEventListener('change', checkOnGuests);
-  guests.addEventListener('change', checkOnGuests);
+  rooms.addEventListener('change', onRoomsGuestsChange);
+  guests.addEventListener('change', onRoomsGuestsChange);
 
 
   var timein = document.querySelector('#timein');
   var timeout = document.querySelector('#timeout');
 
 
-  var setOnTimeSelected = function (evt) {
+  var onTimeChange = function (evt) {
     if (evt.target === timein) {
       timeout.value = timein.value;
     }
@@ -126,8 +126,8 @@
     }
   };
 
-  timein.addEventListener('change', setOnTimeSelected);
-  timeout.addEventListener('change', setOnTimeSelected);
+  timein.addEventListener('change', onTimeChange);
+  timeout.addEventListener('change', onTimeChange);
 
 
   var main = document.querySelector('main');
@@ -136,60 +136,59 @@
   var successTempaleClone = successTempale.querySelector('.success').cloneNode(true);
   var notActiveStatus = window.condition.notActiveStatus;
 
-  var removeOnClickSuccessMessage = function (evt) {
+  var onDocumentRemoveSuccessMessegaClick = function (evt) {
     if (evt.target.matches('.success')) {
       successTempaleClone.remove();
       notActiveStatus();
-      document.removeEventListener('click', removeOnClickSuccessMessage);
+      document.removeEventListener('click', onDocumentRemoveSuccessMessegaClick);
     }
   };
 
-  var removeOnPressSuccsessEsc = function (evt) {
+  var onDocumentRemoveSuccessMessagePressEsc = function (evt) {
     if (evt.key === window.keysCode.ESC_KEY) {
       successTempaleClone.remove();
       notActiveStatus();
     }
-    document.removeEventListener('keydown', removeOnPressSuccsessEsc);
+    document.removeEventListener('keydown', onDocumentRemoveSuccessMessagePressEsc);
   };
 
   var onSuccsessSend = function () {
     main.append(successTempaleClone);
 
-    document.addEventListener('click', removeOnClickSuccessMessage);
-    document.addEventListener('keydown', removeOnPressSuccsessEsc);
+    document.addEventListener('click', onDocumentRemoveSuccessMessegaClick);
+    document.addEventListener('keydown', onDocumentRemoveSuccessMessagePressEsc);
 
   };
 
   var error = document.querySelector('#error').content;
   var errorClone = error.querySelector('.error').cloneNode(true);
 
-  var removeOnClickErrorMessage = function (evt) {
+  var onErrorMessageButtonClick = function (evt) {
     var errorButton = document.querySelector('.error__button');
 
     if (evt.target.matches('.error')) {
       errorClone.remove();
-      errorClone.removeEventListener('click', removeOnClickErrorMessage);
+      errorClone.removeEventListener('click', onErrorMessageButtonClick);
     }
     if (evt.target.matches('.error__button')) {
       errorClone.remove();
-      errorButton.removeEventListener('click', removeOnClickErrorMessage);
+      errorButton.removeEventListener('click', onErrorMessageButtonClick);
     }
   };
 
-  var removeOnPressErrorMessageEsc = function (evt) {
+  var onDocumentRemoveErrorMessagePressEsc = function (evt) {
 
     if (evt.key === window.keysCode.ESC_KEY) {
       errorClone.remove();
     }
-    document.removeEventListener('keydown', removeOnPressErrorMessageEsc);
+    document.removeEventListener('keydown', onDocumentRemoveErrorMessagePressEsc);
   };
-
 
   var onErrorSend = function () {
     main.append(errorClone);
 
-    document.addEventListener('click', removeOnClickErrorMessage);
-    document.addEventListener('keydown', removeOnPressErrorMessageEsc);
+    document.addEventListener('click', onErrorMessageButtonClick);
+    document.addEventListener('keydown', onDocumentRemoveErrorMessagePressEsc);
   };
 
   var adForm = document.querySelector('.ad-form');
@@ -197,26 +196,28 @@
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     var formData = new FormData(adForm);
+
     window.setRequest('https://js.dump.academy/keksobooking', 'POST', onSuccsessSend, onErrorSend, formData);
   });
 
   var resetButton = document.querySelector('.ad-form__reset');
+
   resetButton.addEventListener('click', function (evt) {
     window.previous.resetPreviousImg();
     evt.preventDefault();
     notActiveStatus();
   });
 
-  var onClickErrorLoad = function () {
+  var getErrorMessage = function () {
     errorClone.querySelector('.error__message').innerHTML = 'Данные объявлений не были загружены <br> Попробуйте перезагрузить страницу';
     main.append(errorClone);
 
-    document.addEventListener('click', removeOnClickErrorMessage);
-    document.addEventListener('keydown', removeOnPressErrorMessageEsc);
+    document.addEventListener('click', onErrorMessageButtonClick);
+    document.addEventListener('keydown', onDocumentRemoveErrorMessagePressEsc);
   };
 
   window.form = {
-    onClickErrorLoad: onClickErrorLoad
+    getErrorMessage: getErrorMessage
   };
 
 })();
