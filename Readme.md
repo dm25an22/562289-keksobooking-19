@@ -50,3 +50,5 @@ git clone SSH-адрес_вашего_форка
 
 [travis-image]: https://travis-ci.com/htmlacademy-javascript/562289-keksobooking-19.svg?branch=master
 [travis-url]: https://travis-ci.com/htmlacademy-javascript/562289-keksobooking-19
+
+#### Привет, тренируюсь в Гите
